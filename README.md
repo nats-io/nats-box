@@ -22,9 +22,6 @@ Mount a volume to get nsc accounts, nkeys, and other config back on the host.
 
 ```
 $ docker run --rm -it -v $(pwd)/nsc:/nsc synadia/nats-box:latest
-~ # export NKEYS_PATH=/nsc/nkeys
-~ # export NSC_HOME=/nsc/accounts
-~ # export NATS_CONFIG_HOME=/nsc/config
 ~ # nsc init
 ~ # chmod -R 1000:1000 /nsc
 $ tree -L 2 nsc/
