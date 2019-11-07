@@ -30,4 +30,8 @@ WORKDIR /root
 
 USER root
 
+ENV NKEYS_PATH /nsc
+ENV NSC_HOME /nsc/accounts
+ENV NATS_CONFIG_HOME /nsc/config
+
 ENTRYPOINT ["/bin/sh"]
