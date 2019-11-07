@@ -1,0 +1,12 @@
+name: nats-box testing
+on: push
+
+jobs:
+  linux:
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v1
+    - name: Build images
+      run: |
+        docker build -t synadia/nats-box .
