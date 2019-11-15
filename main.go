@@ -26,6 +26,8 @@ import (
 	"github.com/nats-io/nats.go"
 )
 
+const version = "0.1.0"
+
 func usage(exeType int) {
 	switch exeType {
 	case subExe:
@@ -38,12 +40,17 @@ func usage(exeType int) {
 	flag.PrintDefaults()
 }
 
+func showVersion
+
 func main() {
 	var urls = flag.String("s", "connect.ngs.global", "The NATS System")
 	var userCreds = flag.String("creds", "", "User Credentials File")
 	var showTime = flag.Bool("t", false, "Display timestamps")
 	var showHelp = flag.Bool("h", false, "Show help message")
-
+	var showVersion = flag.Bool("v", false, "Show help message")
+	var rootCACertFile = flag.String("cacert", "", "Root CA Certificate File")
+	var clientCertFile = flag.String("cert", "", "Client Certificate File")
+	var clientKeyFile = flag.String("key", "", "Client Private key")
 	exeType := exeType()
 
 	log.SetFlags(0)
@@ -64,6 +71,14 @@ func main() {
 
 	// Connect Options.
 	opts := []nats.Option{nats.Name(toolName(exeType))}
+
+	// TLS Options.
+	if len(*rootCACertFile) > 0 {
+		opts = append(opts, nats.RootCAs(*rootCACertFile))
+	}
+	if len(*clientCertFile) > 0 && len(*clientKeyFile) > 0 {
+		opts = append(opts, nats.ClientCert(*clientCertFile, *clientKeyFile))
+	}
 	opts = setupConnOptions(opts)
 
 	// Use UserCredentials
