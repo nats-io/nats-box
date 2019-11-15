@@ -71,8 +71,13 @@ func main() {
 		opts = append(opts, nats.UserCredentials(*userCreds))
 	}
 
+	us := *urls
+	if v := os.Getenv("NATS_URL"); v != "" {
+		us = v
+	}
+
 	// Connect to NATS
-	nc, err := nats.Connect(*urls, opts...)
+	nc, err := nats.Connect(us, opts...)
 	if err != nil {
 		log.Fatal(err)
 	}
