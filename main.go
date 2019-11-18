@@ -26,6 +26,8 @@ import (
 	"github.com/nats-io/nats.go"
 )
 
+const version = "0.1.0"
+
 func usage(exeType int) {
 	switch exeType {
 	case subExe:
@@ -43,6 +45,7 @@ func main() {
 	var userCreds = flag.String("creds", "", "User Credentials File")
 	var showTime = flag.Bool("t", false, "Display timestamps")
 	var showHelp = flag.Bool("h", false, "Show help message")
+	var showVersion = flag.Bool("v", false, "Show version")
 
 	exeType := exeType()
 
@@ -52,6 +55,11 @@ func main() {
 
 	if *showHelp {
 		usage(exeType)
+		os.Exit(0)
+	}
+
+	if *showVersion {
+		log.Printf("nats-box v%s", version)
 		os.Exit(0)
 	}
 
