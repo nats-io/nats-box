@@ -6,7 +6,9 @@
                                            
 ```
 
-[![License][License-Image]][License-Url] [![Version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=go&type=5&v=0.1.0)](https://github.com/nats-io/nats-box/releases/tag/v0.1.0)
+[![License][License-Image]][License-Url]
+[![Version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=go&type=5&v=0.1.0)](https://github.com/nats-io/nats-box/releases/tag/v0.1.0)
+
 [License-Url]: https://www.apache.org/licenses/LICENSE-2.0
 [License-Image]: https://img.shields.io/badge/License-Apache2-blue.svg
 
