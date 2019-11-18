@@ -34,4 +34,6 @@ ENV NKEYS_PATH /nsc/nkeys
 ENV NSC_HOME /nsc/accounts
 ENV NATS_CONFIG_HOME /nsc/config
 
-ENTRYPOINT ["/bin/sh"]
+COPY .profile $WORKDIR
+
+ENTRYPOINT ["/bin/sh", "-l"]
