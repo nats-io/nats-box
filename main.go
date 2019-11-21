@@ -26,7 +26,7 @@ import (
 	"github.com/nats-io/nats.go"
 )
 
-const version = "0.1.0"
+const version = "0.2.0"
 
 func usage(exeType int) {
 	switch exeType {
@@ -34,6 +34,8 @@ func usage(exeType int) {
 		log.Printf("Usage: nats-sub [-s server] [-creds file] [-t] <subject>\n")
 	case reqExe:
 		log.Printf("Usage: nats-req [-s server] [-creds file] [-t] <subject> <request>\n")
+	case repExe:
+		log.Printf("Usage: nats-rply [-s server] [-creds file] [-t] [-q queue] <subject> <response>\n")
 	default:
 		log.Printf("Usage: nats-pub [-s server] [-creds file] [-t] <subject> <msg>\n")
 	}
@@ -43,6 +45,7 @@ func usage(exeType int) {
 func main() {
 	var urls = flag.String("s", "connect.ngs.global", "The NATS System")
 	var userCreds = flag.String("creds", "", "User Credentials File")
+	var queue = flag.String("q", "NATS-RPLY-22", "Queue Group Name")
 	var showTime = flag.Bool("t", false, "Display timestamps")
 	var showHelp = flag.Bool("h", false, "Show help message")
 	var showVersion = flag.Bool("v", false, "Show version")
@@ -93,6 +96,7 @@ func main() {
 	switch exeType {
 	case subExe:
 		subj, i := args[0], 0
+
 		nc.Subscribe(subj, func(msg *nats.Msg) {
 			i++
 			printMsg(msg, i)
@@ -115,6 +119,21 @@ func main() {
 			log.Fatalf("%v for request", err)
 		}
 		fmt.Printf("%s\n", msg.Data)
+	case repExe:
+		subj, repMsg, i := args[0], []byte(args[1]), 0
+		nc.QueueSubscribe(subj, *queue, func(msg *nats.Msg) {
+			i++
+			printMsg(msg, i)
+			msg.Respond(repMsg)
+		})
+		nc.Flush()
+		if err := nc.LastError(); err != nil {
+			log.Fatal(err)
+		}
+		log.Printf("Listening on [%s %s]", subj, *queue)
+		if *showTime {
+			log.SetFlags(log.LstdFlags)
+		}
 	default:
 		subj, msg := args[0], []byte(args[1])
 		nc.Publish(subj, msg)
@@ -124,7 +143,7 @@ func main() {
 		}
 	}
 
-	if exeType == subExe {
+	if exeType == subExe || exeType == repExe {
 		runtime.Goexit()
 	}
 }
@@ -156,6 +175,7 @@ const (
 	pubExe = iota
 	subExe
 	reqExe
+	repExe
 )
 
 func exeType() int {
@@ -170,6 +190,8 @@ func exeType() int {
 		return subExe
 	case "-req":
 		return reqExe
+	case "rply":
+		return repExe
 	}
 	return pubExe
 }
@@ -180,6 +202,8 @@ func toolName(exeType int) string {
 		return "NATS-SUB TOOL"
 	case reqExe:
 		return "NATS-REQ TOOL"
+	case repExe:
+		return "NATS-RPLY TOOL"
 	default:
 		return "NATS-PUB TOOL"
 	}

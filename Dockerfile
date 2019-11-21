@@ -24,7 +24,7 @@ FROM alpine:3.10
 RUN apk add -U --no-cache ca-certificates figlet
 
 COPY --from=builder /go/bin/* /usr/local/bin/
-RUN cd /usr/local/bin/ && ln -s nats-util nats-pub && ln -s nats-util nats-sub && ln -s nats-util nats-req
+RUN cd /usr/local/bin/ && ln -s nats-box nats-pub && ln -s nats-box nats-sub && ln -s nats-box nats-req && ln -s nats-box nats-rply
 
 WORKDIR /root
 
