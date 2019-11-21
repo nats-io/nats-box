@@ -3,6 +3,7 @@ alias stan-pub="stan_pub"
 alias nats-pub="nats_pub"
 alias nats-sub="nats_sub"
 alias nats-req="nats_req"
+alias nats-rply="nats_rply"
 alias nats-top="nats_top"
 
 function stan_sub() {
@@ -42,10 +43,18 @@ function nats_sub() {
 }
 
 function nats_req() {
-	if [ -n "$$USER_CREDS" ]; then
-		/usr/local/bin/nats-req -creds $USER_CREDS "$@"
+	if [ -n "$USER2_CREDS" ]; then
+		/usr/local/bin/nats-req -creds $USER2_CREDS "$@"
 	else
 		/usr/local/bin/nats-req "$@"
+	fi
+}
+
+function nats_rply() {
+	if [ -n "$USER_CREDS" ]; then
+		/usr/local/bin/nats-rply -q 'nats-box' -creds $USER_CREDS "$@"
+	else
+		/usr/local/bin/nats-rply -q 'nats-box' "$@"
 	fi
 }
 

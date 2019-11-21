@@ -1,5 +1,5 @@
-module github.com/connecteverything/de-nats-poc/nats-util
+module github.com/nats-io/nats-box
 
-go 1.12
+go 1.13
 
-require github.com/nats-io/nats.go v1.8.1
+require github.com/nats-io/nats.go v1.9.1
