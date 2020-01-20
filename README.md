@@ -33,6 +33,14 @@ $ docker run --rm -it synadia/nats-box:latest
 Published [test] : 'Hello World'
 ```
 
+Running in Kubernetes:
+
+```sh
+kubectl run -i --rm --tty nats-box --image=synadia/nats-box --restart=Never
+nats-box:~# nats-sub -s nats hello &
+nats-box:~# nats-pub -s nats hello world 
+```
+
 ## Using NSC to manage NATS v2 users and accounts
 
 You can mount a local volume to get nsc accounts, nkeys, and other config back on the host.
