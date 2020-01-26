@@ -10,7 +10,7 @@ RUN apk add -U --no-cache git binutils
 
 RUN go get github.com/nats-io/nats-top
 
-RUN go get -u -ldflags "-X main.version=0.3.14-nats-box" github.com/nats-io/nsc
+RUN go get -u -ldflags "-X main.version=0.3.16-nats-box" github.com/nats-io/nsc
 RUN go get github.com/nats-io/stan.go/examples/stan-pub
 RUN go get github.com/nats-io/stan.go/examples/stan-sub
 
