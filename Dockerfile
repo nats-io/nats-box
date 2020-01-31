@@ -19,7 +19,7 @@ COPY . .
 RUN go install
 RUN strip /go/bin/*
 
-FROM alpine:3.10
+FROM alpine:3.11
 
 RUN apk add -U --no-cache ca-certificates figlet
 
