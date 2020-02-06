@@ -49,8 +49,7 @@ You can mount a local volume to get nsc accounts, nkeys, and other config back o
 $ docker run --rm -it -v $(pwd)/nsc:/nsc synadia/nats-box:latest
 
 # In case NSC not initialized already:
-nats-box:~# nsc init
-nats-box:~# chmod -R 1000:1000 /nsc
+nats-box:~# nsc init -d /nsc
 $ tree -L 2 nsc/
 nsc/
 ├── accounts
