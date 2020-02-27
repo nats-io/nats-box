@@ -1,8 +1,8 @@
-FROM golang:1.13.4-alpine3.10 AS builder
+FROM synadia/jsm:latest AS jsm
+FROM golang:1.14-alpine3.11 AS builder
 
 LABEL maintainer "Derek Collison <derek@nats.io>"
 LABEL maintainer "Waldemar Quevedo <wally@nats.io>"
-LABEL maintainer "Jaime Piña <jaime@nats.io>"
 
 WORKDIR $GOPATH/src/github.com/nats-io/
 
@@ -24,6 +24,8 @@ FROM alpine:3.11
 RUN apk add -U --no-cache ca-certificates figlet
 
 COPY --from=builder /go/bin/* /usr/local/bin/
+COPY --from=jsm /usr/local/bin/nats /usr/local/bin/
+
 RUN cd /usr/local/bin/ && ln -s nats-box nats-pub && ln -s nats-box nats-sub && ln -s nats-box nats-req && ln -s nats-box nats-rply
 
 WORKDIR /root
