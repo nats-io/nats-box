@@ -1,4 +1,3 @@
-FROM synadia/jsm:latest AS jsm
 FROM golang:1.14-alpine3.11 AS builder
 
 LABEL maintainer "Derek Collison <derek@nats.io>"
@@ -11,6 +10,7 @@ RUN apk add -U --no-cache git binutils
 RUN go get github.com/nats-io/nats-top
 
 RUN go get -u -ldflags "-X main.version=0.3.16-nats-box" github.com/nats-io/nsc
+RUN go get -u -ldflags "-X main.version=0.3.16-nats-box" github.com/nats-io/jetstream/nats
 RUN go get github.com/nats-io/stan.go/examples/stan-pub
 RUN go get github.com/nats-io/stan.go/examples/stan-sub
 
@@ -24,7 +24,6 @@ FROM alpine:3.11
 RUN apk add -U --no-cache ca-certificates figlet
 
 COPY --from=builder /go/bin/* /usr/local/bin/
-COPY --from=jsm /usr/local/bin/nats /usr/local/bin/
 
 RUN cd /usr/local/bin/ && ln -s nats-box nats-pub && ln -s nats-box nats-sub && ln -s nats-box nats-req && ln -s nats-box nats-rply
 
