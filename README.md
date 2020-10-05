@@ -1,12 +1,12 @@
 ```
 _ __   __ _| |_ ___      | |__   _____  __
 | '_ \ / _` | __/ __|_____| '_ \ / _ \ \/ /
-| | | | (_| | |_\__ \_____| |_) | (_) >  < 
-|_| |_|\__,_|\__|___/     |_.__/ \___/_/\_\                                           
+| | | | (_| | |_\__ \_____| |_) | (_) >  <
+|_| |_|\__,_|\__|___/     |_.__/ \___/_/\_\
 ```
 
 [![License][License-Image]][License-Url]
-[![Version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=go&type=5&v=0.3.0)](https://github.com/nats-io/nats-box/releases/tag/v0.3.0)
+[![Version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=go&type=5&v=0.4.0)](https://github.com/nats-io/nats-box/releases/tag/v0.4.0)
 
 [License-Url]: https://www.apache.org/licenses/LICENSE-2.0
 [License-Image]: https://img.shields.io/badge/License-Apache2-blue.svg
@@ -22,6 +22,7 @@ A lightweight container with NATS and NATS Streaming utilities.
 * stan-sub - subscribe to messages from NATS Streaming
 * nats-top - top-like tool for monitoring NATS servers
 * nsc      - create NATS accounts and users
+* nats     - NATS management utility (includes JetStream)
 
 ## Getting started
 
@@ -39,7 +40,7 @@ Running in Kubernetes:
 # Interactive mode
 kubectl run -i --rm --tty nats-box --image=synadia/nats-box --restart=Never
 nats-box:~# nats-sub -s nats hello &
-nats-box:~# nats-pub -s nats hello world 
+nats-box:~# nats-pub -s nats hello world
 
 # Non-interactive mode
 kubectl apply -f https://nats-io.github.io/k8s/tools/nats-box.yml

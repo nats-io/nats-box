@@ -1,7 +1,8 @@
-FROM golang:1.14-alpine3.11 AS builder
+FROM golang:1.15-alpine3.12 AS builder
 
 LABEL maintainer "Derek Collison <derek@nats.io>"
 LABEL maintainer "Waldemar Quevedo <wally@nats.io>"
+LABEL maintainer "Jaime Piña <jaime@nats.io>"
 
 WORKDIR $GOPATH/src/github.com/nats-io/
 
@@ -9,8 +10,8 @@ RUN apk add -U --no-cache git binutils
 
 RUN go get github.com/nats-io/nats-top
 
-RUN go get -u -ldflags "-X main.version=0.3.16-nats-box" github.com/nats-io/nsc
-RUN go get -u -ldflags "-X main.version=0.3.16-nats-box" github.com/nats-io/jetstream/nats
+RUN GO111MODULE=on go get -u -ldflags "-X main.version=0.4.10" github.com/nats-io/nsc@0.4.10
+RUN GO111MODULE=on go get -u -ldflags "-X main.version=0.0.18" github.com/nats-io/jetstream/nats@v0.0.18
 RUN go get github.com/nats-io/stan.go/examples/stan-pub
 RUN go get github.com/nats-io/stan.go/examples/stan-sub
 
