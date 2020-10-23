@@ -43,7 +43,7 @@ func usage(exeType int) {
 }
 
 func main() {
-	var urls = flag.String("s", stringFromEnv("NATS_URL", "connect.ngs.global"), "The NATS System")
+	var urls = flag.String("s", stringFromEnv("NATS_URL", "localhost:4222"), "The NATS System")
 	var userCreds = flag.String("creds", stringFromEnv("NATS_CREDS", ""), "User Credentials File")
 	var queue = flag.String("q", "NATS-RPLY-22", "Queue Group Name")
 	var showTime = flag.Bool("t", false, "Display timestamps")
