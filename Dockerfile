@@ -11,7 +11,13 @@ RUN apk add -U --no-cache git binutils
 RUN go get github.com/nats-io/nats-top
 
 RUN GO111MODULE=on go get -u -ldflags "-X main.version=0.4.10" github.com/nats-io/nsc@0.4.10
-RUN GO111MODULE=on go get -u -ldflags "-X main.version=0.0.18" github.com/nats-io/jetstream/nats@v0.0.18
+
+RUN mkdir -p src/github.com/nats-io && \
+    cd src/github.com/nats-io/ && \
+    git clone https://github.com/nats-io/natscli.git && \
+    cd natscli && \
+    go build -o /nats
+
 RUN go get github.com/nats-io/stan.go/examples/stan-pub
 RUN go get github.com/nats-io/stan.go/examples/stan-sub
 
@@ -25,6 +31,7 @@ FROM alpine:3.11
 RUN apk add -U --no-cache ca-certificates figlet
 
 COPY --from=builder /go/bin/* /usr/local/bin/
+COPY --from=builder /nats /usr/local/bin/
 
 RUN cd /usr/local/bin/ && ln -s nats-box nats-pub && ln -s nats-box nats-sub && ln -s nats-box nats-req && ln -s nats-box nats-rply
 
