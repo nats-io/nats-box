@@ -1,5 +1,6 @@
 alias stan-sub="stan_sub"
 alias stan-pub="stan_pub"
+alias stan-pub="stan_bench"
 alias nats-top="nats_top"
 
 function stan_sub() {
@@ -19,6 +20,16 @@ function stan_pub() {
 		/usr/local/bin/stan-pub -c $STAN_CLUSTER -s $NATS_URL "$@"
 	else
 		/usr/local/bin/stan-pub "$@"
+	fi
+}
+
+function stan_bench() {
+	if [[ -n "$STAN_CREDS" ]] && [[ -n "$STAN_CLUSTER" ]] && [[ -n "$NATS_URL" ]]; then
+		/usr/local/bin/stan-bench -creds $STAN_CREDS -c $STAN_CLUSTER -s $NATS_URL "$@"
+	elif [ -n "$STAN_CLUSTER" ] && [ -n "$NATS_URL" ]; then
+		/usr/local/bin/stan-bench -c $STAN_CLUSTER -s $NATS_URL "$@"
+	else
+		/usr/local/bin/stan-bench "$@"
 	fi
 }
 
