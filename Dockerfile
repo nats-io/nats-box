@@ -20,6 +20,7 @@ RUN mkdir -p src/github.com/nats-io && \
 
 RUN go get github.com/nats-io/stan.go/examples/stan-pub
 RUN go get github.com/nats-io/stan.go/examples/stan-sub
+RUN go get github.com/nats-io/stan.go/examples/stan-bench
 
 # Simple tools
 COPY . .
@@ -33,7 +34,11 @@ RUN apk add -U --no-cache ca-certificates figlet
 COPY --from=builder /go/bin/* /usr/local/bin/
 COPY --from=builder /nats /usr/local/bin/
 
-RUN cd /usr/local/bin/ && ln -s nats-box nats-pub && ln -s nats-box nats-sub && ln -s nats-box nats-req && ln -s nats-box nats-rply
+RUN cd /usr/local/bin/ && \
+    ln -s nats-box nats-pub && \
+    ln -s nats-box nats-sub && \
+    ln -s nats-box nats-req && \
+    ln -s nats-box nats-rply
 
 WORKDIR /root
 
