@@ -15,7 +15,7 @@ RUN GO111MODULE=on go get -u -ldflags "-X main.version=0.4.10" github.com/nats-i
 RUN mkdir -p src/github.com/nats-io && \
     cd src/github.com/nats-io/ && \
     git clone https://github.com/nats-io/natscli.git && \
-    cd natscli && \
+    cd natscli/nats && \
     go build -o /nats
 
 RUN go get github.com/nats-io/stan.go/examples/stan-pub
