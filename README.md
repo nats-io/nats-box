@@ -12,6 +12,9 @@
 [License-Url]: https://www.apache.org/licenses/LICENSE-2.0
 [License-Image]: https://img.shields.io/badge/License-Apache2-blue.svg
 
+# <span style="color:red">DEPRECATED</span>
+Please use [natscli](https://github.com/nats-io/natscli) instead.
+
 # nats-box
 
 A lightweight container with NATS and NATS Streaming utilities.
