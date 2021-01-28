@@ -10,7 +10,7 @@ RUN apk add -U --no-cache git binutils
 
 RUN go get github.com/nats-io/nats-top
 
-RUN GO111MODULE=on go get -u -ldflags "-X main.version=0.4.10" github.com/nats-io/nsc@0.4.10
+RUN GO111MODULE=on go get -u -ldflags "-X main.version=01/27/2021" github.com/nats-io/nsc@master
 
 RUN mkdir -p src/github.com/nats-io && \
     cd src/github.com/nats-io/ && \
@@ -27,7 +27,7 @@ COPY . .
 RUN go install
 RUN strip /go/bin/*
 
-FROM alpine:3.11
+FROM alpine:3.13
 
 RUN apk add -U --no-cache ca-certificates figlet
 
