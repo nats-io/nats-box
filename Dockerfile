@@ -1,4 +1,4 @@
-FROM golang:1.16-alpine AS builder
+FROM golang:1.17-alpine AS builder
 
 LABEL maintainer "Derek Collison <derek@nats.io>"
 LABEL maintainer "Waldemar Quevedo <wally@nats.io>"
@@ -16,7 +16,9 @@ RUN mkdir -p src/github.com/nats-io && \
     cd src/github.com/nats-io/ && \
     git clone https://github.com/nats-io/natscli.git && \
     cd natscli/nats && \
-    go build -ldflags "-s -w -X main.version=$(date +%Y%m%d)" -o /nats
+    git fetch origin && \
+    git checkout v0.0.28 && \
+    go build -ldflags "-s -w -X main.version=0.0.28" -o /nats
 
 RUN go get github.com/nats-io/stan.go/examples/stan-pub
 RUN go get github.com/nats-io/stan.go/examples/stan-sub
@@ -27,7 +29,7 @@ COPY . .
 RUN go install
 RUN strip /go/bin/*
 
-FROM alpine:3.13
+FROM alpine:3.15
 
 RUN apk add -U --no-cache ca-certificates figlet
 
