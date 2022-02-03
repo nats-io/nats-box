@@ -8,9 +8,9 @@ WORKDIR $GOPATH/src/github.com/nats-io/
 
 RUN apk add -U --no-cache git binutils
 
-RUN go get github.com/nats-io/nats-top
+RUN go install github.com/nats-io/nats-top@latest
 
-RUN go get -u -ldflags "-X main.version=$(date +%Y%m%d)" github.com/nats-io/nsc@master
+RUN go install -ldflags "-X main.version=2.6.0" github.com/nats-io/nsc@2.6.0
 
 RUN mkdir -p src/github.com/nats-io && \
     cd src/github.com/nats-io/ && \
@@ -20,9 +20,9 @@ RUN mkdir -p src/github.com/nats-io && \
     git checkout v0.0.28 && \
     go build -ldflags "-s -w -X main.version=0.0.28" -o /nats
 
-RUN go get github.com/nats-io/stan.go/examples/stan-pub
-RUN go get github.com/nats-io/stan.go/examples/stan-sub
-RUN go get github.com/nats-io/stan.go/examples/stan-bench
+RUN go install github.com/nats-io/stan.go/examples/stan-pub@latest
+RUN go install github.com/nats-io/stan.go/examples/stan-sub@latest
+RUN go install github.com/nats-io/stan.go/examples/stan-bench@latest
 
 # Simple tools
 COPY . .
