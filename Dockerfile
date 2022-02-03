@@ -47,8 +47,8 @@ WORKDIR /root
 USER root
 
 ENV NKEYS_PATH /nsc/nkeys
-ENV NSC_HOME /nsc/accounts
-ENV NATS_CONFIG_HOME /nsc/config
+ENV XDG_DATA_HOME /nsc
+ENV XDG_CONFIG_HOME /nsc/.config
 
 COPY .profile $WORKDIR
 
