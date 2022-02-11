@@ -37,7 +37,7 @@ Running in Kubernetes:
 
 ```sh
 # Interactive mode
-kubectl run -i --rm --tty nats-box --image=synadia/nats-box --restart=Never
+kubectl run -i --rm --tty nats-box --image=natsio/nats-box --restart=Never
 nats-box:~# nats sub -s nats hello &
 nats-box:~# nats pub -s nats hello world
 
@@ -51,7 +51,7 @@ kubectl exec -it nats-box -- /bin/sh
 You can mount a local volume to get nsc accounts, nkeys, and other config back on the host.
 
 ```
-$ docker run --rm -it -v $(pwd)/nsc:/nsc synadia/nats-box:latest
+$ docker run --rm -it -v $(pwd)/nsc:/nsc natsio/nats-box:latest
 
 # In case NSC not initialized already:
 nats-box:~# nsc init -d /nsc
