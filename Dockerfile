@@ -42,13 +42,13 @@ RUN cd /usr/local/bin/ && \
     ln -s nats-box nats-req && \
     ln -s nats-box nats-rply
 
-WORKDIR /root
+WORKDIR /home/nats
+RUN addgroup -S -g 1002 natsgroup && adduser -S -u 1001 nats -G natsgroup
+USER nats
 
-USER root
-
-ENV NKEYS_PATH /nsc/nkeys
-ENV XDG_DATA_HOME /nsc
-ENV XDG_CONFIG_HOME /nsc/.config
+ENV NKEYS_PATH /home/nats/nsc/nkeys
+ENV XDG_DATA_HOME /home/nats/nats/nsc
+ENV XDG_CONFIG_HOME /home/nats/nsc/.config
 
 COPY .profile $WORKDIR
 
