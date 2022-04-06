@@ -10,15 +10,15 @@ RUN apk add -U --no-cache git binutils
 
 RUN go install github.com/nats-io/nats-top@latest
 
-RUN go install -ldflags "-X main.version=2.6.0" github.com/nats-io/nsc@2.6.0
+RUN go install -ldflags "-X main.version=2.6.0" github.com/nats-io/nsc@2.6.1
 
 RUN mkdir -p src/github.com/nats-io && \
     cd src/github.com/nats-io/ && \
     git clone https://github.com/nats-io/natscli.git && \
     cd natscli/nats && \
     git fetch origin && \
-    git checkout v0.0.28 && \
-    go build -ldflags "-s -w -X main.version=0.0.28" -o /nats
+    git checkout v0.0.30 && \
+    go build -ldflags "-s -w -X main.version=0.0.30" -o /nats
 
 RUN go install github.com/nats-io/stan.go/examples/stan-pub@latest
 RUN go install github.com/nats-io/stan.go/examples/stan-sub@latest
