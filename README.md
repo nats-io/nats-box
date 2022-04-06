@@ -7,8 +7,6 @@
 ```
 
 [![License][License-Image]][License-Url]
-[![Version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=go&type=5&v=0.8.0)](https://github.com/nats-io/nats-box/releases/tag/v0.8.0)
-
 [License-Url]: https://www.apache.org/licenses/LICENSE-2.0
 [License-Image]: https://img.shields.io/badge/License-Apache2-blue.svg
 
@@ -28,7 +26,7 @@ A lightweight container with NATS and NATS Streaming utilities.
 Use tools to interact with NATS.
 
 ```
-$ docker run --rm -it synadia/nats-box:latest
+$ docker run --rm -it natsio/nats-box:latest
 ~ # nats pub -s demo.nats.io test 'Hello World'
 16:33:27 Published 11 bytes to "test"
 ```
