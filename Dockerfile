@@ -24,12 +24,7 @@ RUN go install github.com/nats-io/stan.go/examples/stan-pub@latest
 RUN go install github.com/nats-io/stan.go/examples/stan-sub@latest
 RUN go install github.com/nats-io/stan.go/examples/stan-bench@latest
 
-# Simple tools
-COPY . .
-RUN go install
-RUN strip /go/bin/*
-
-FROM alpine:3.15
+FROM alpine:3.14.6
 
 RUN apk add -U --no-cache ca-certificates figlet
 
