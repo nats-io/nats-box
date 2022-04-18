@@ -1,4 +1,4 @@
-FROM golang:1.17-alpine AS builder
+FROM golang:1.18-alpine AS builder
 
 LABEL maintainer "Derek Collison <derek@nats.io>"
 LABEL maintainer "Waldemar Quevedo <wally@nats.io>"
@@ -10,7 +10,7 @@ RUN apk add -U --no-cache git binutils
 
 RUN go install github.com/nats-io/nats-top@v0.4.0
 
-RUN go install -ldflags "-X main.version=2.6.1" github.com/nats-io/nsc@2.6.1
+RUN go install -ldflags "-X main.version=2.7.1" github.com/nats-io/nsc@2.7.1
 
 RUN mkdir -p src/github.com/nats-io && \
     cd src/github.com/nats-io/ && \
@@ -18,7 +18,7 @@ RUN mkdir -p src/github.com/nats-io && \
     cd natscli/nats && \
     git fetch origin && \
     git checkout v0.0.30 && \
-    go build -ldflags "-s -w -X main.version=0.0.30" -o /nats
+    go build -ldflags "-s -w -X main.version=0.0.31" -o /nats
 
 RUN go install github.com/nats-io/stan.go/examples/stan-pub@latest
 RUN go install github.com/nats-io/stan.go/examples/stan-sub@latest
