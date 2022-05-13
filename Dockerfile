@@ -17,8 +17,8 @@ RUN mkdir -p src/github.com/nats-io && \
     git clone https://github.com/nats-io/natscli.git && \
     cd natscli/nats && \
     git fetch origin && \
-    git checkout v0.0.32 && \
-    go build -ldflags "-s -w -X main.version=0.0.32" -o /nats
+    git checkout v0.0.33 && \
+    go build -ldflags "-s -w -X main.version=0.0.33" -o /nats
 
 RUN go install github.com/nats-io/stan.go/examples/stan-pub@latest
 RUN go install github.com/nats-io/stan.go/examples/stan-sub@latest
