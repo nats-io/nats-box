@@ -6,9 +6,7 @@
 |_| |_|\__,_|\__|___/     |_.__/ \___/_/\_\
 ```
 
-[![License][License-Image]][License-Url]
-[License-Url]: https://www.apache.org/licenses/LICENSE-2.0
-[License-Image]: https://img.shields.io/badge/License-Apache2-blue.svg
+[![License Apache 2.0](https://img.shields.io/badge/License-Apache2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 # nats-box
 
