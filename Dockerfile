@@ -47,4 +47,4 @@ ENV XDG_CONFIG_HOME /nsc/.config
 
 COPY .profile $WORKDIR
 
-ENTRYPOINT ["/bin/sh", "-l"]
+CMD ["/bin/sh", "-l"]
