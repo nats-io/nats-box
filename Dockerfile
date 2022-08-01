@@ -37,9 +37,12 @@ RUN cd /usr/local/bin/ && \
     ln -s nats-box nats-req && \
     ln -s nats-box nats-rply
 
-WORKDIR /root
+RUN addgroup -g 1000 -S box \
+ && adduser -u 1000 -S box -G box
 
-USER root
+USER 1000
+
+WORKDIR /box
 
 ENV NKEYS_PATH /nsc/nkeys
 ENV XDG_DATA_HOME /nsc
