@@ -8,11 +8,11 @@ WORKDIR $GOPATH/src/github.com/nats-io/
 
 RUN apk add -U --no-cache git binutils
 
-RUN go install github.com/nats-io/nats-top@latest
+RUN go install github.com/nats-io/nats-top@v0.5.2
 
-RUN go install github.com/nats-io/nsc@latest
+RUN go install -ldflags="-X main.version=2.7.1" github.com/nats-io/nsc@2.7.1
 
-RUN go install github.com/nats-io/natscli/nats@latest
+RUN go install github.com/nats-io/natscli/nats@v0.0.33
 
 RUN go install github.com/nats-io/stan.go/examples/stan-pub@latest
 RUN go install github.com/nats-io/stan.go/examples/stan-sub@latest
