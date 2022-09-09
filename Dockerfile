@@ -12,7 +12,7 @@ RUN go install github.com/nats-io/nats-top@v0.5.2
 
 RUN go install -ldflags="-X main.version=2.7.1" github.com/nats-io/nsc@2.7.1
 
-RUN go install github.com/nats-io/natscli/nats@v0.0.33
+RUN go install github.com/nats-io/natscli/nats@v0.0.34
 
 RUN go install github.com/nats-io/stan.go/examples/stan-pub@latest
 RUN go install github.com/nats-io/stan.go/examples/stan-sub@latest
