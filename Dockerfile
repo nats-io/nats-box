@@ -18,7 +18,7 @@ RUN go install github.com/nats-io/stan.go/examples/stan-pub@latest
 RUN go install github.com/nats-io/stan.go/examples/stan-sub@latest
 RUN go install github.com/nats-io/stan.go/examples/stan-bench@latest
 
-FROM alpine:3.14.6
+FROM alpine:3.16.2
 
 RUN apk add -U --no-cache ca-certificates figlet jq
 
