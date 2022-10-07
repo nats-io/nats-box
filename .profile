@@ -1,6 +1,6 @@
 alias stan-sub="stan_sub"
 alias stan-pub="stan_pub"
-alias stan-pub="stan_bench"
+alias stan-bench="stan_bench"
 alias nats-top="nats_top"
 
 function stan_sub() {
