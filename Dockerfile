@@ -20,7 +20,7 @@ RUN go install github.com/nats-io/stan.go/examples/stan-bench@latest
 
 FROM alpine:3.14.6
 
-RUN apk add -U --no-cache ca-certificates figlet
+RUN apk add -U --no-cache ca-certificates figlet jq
 
 COPY --from=builder /go/bin/* /usr/local/bin/
 
