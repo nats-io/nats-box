@@ -1,4 +1,4 @@
-FROM golang:1.18-alpine AS builder
+FROM golang:1.19-alpine AS builder
 
 LABEL maintainer "Derek Collison <derek@nats.io>"
 LABEL maintainer "Waldemar Quevedo <wally@nats.io>"
@@ -8,9 +8,9 @@ WORKDIR $GOPATH/src/github.com/nats-io/
 
 RUN apk add -U --no-cache git binutils
 
-RUN go install github.com/nats-io/nats-top@v0.5.2
+RUN go install github.com/nats-io/nats-top@v0.5.3
 
-RUN go install -ldflags="-X main.version=2.7.1" github.com/nats-io/nsc@2.7.1
+RUN go install -ldflags="-X main.version=2.7.3" github.com/nats-io/nsc@2.7.3
 
 RUN go install github.com/nats-io/natscli/nats@v0.0.34
 
