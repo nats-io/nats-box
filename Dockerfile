@@ -1,33 +1,38 @@
-FROM golang:1.19-alpine AS builder
+#syntax=docker/dockerfile-upstream:1.4
+FROM golang AS builder
 
 LABEL maintainer "Derek Collison <derek@nats.io>"
 LABEL maintainer "Waldemar Quevedo <wally@nats.io>"
 
-WORKDIR $GOPATH/src/github.com/nats-io/
+ARG TARGETARCH
 
-RUN apk add -U --no-cache git binutils
+ARG VERSION_NATS
+ARG VERSION_NATS_TOP
+ARG VERSION_NSC
+ARG VERSION_STAN
 
-RUN go install github.com/nats-io/nats-top@v0.5.3
+ENV GOPATH /go/${TARGETARCH}
 
-RUN go install -ldflags="-X main.version=2.7.6" github.com/nats-io/nsc/v2@v2.7.6
+RUN apk add --no-cache git binutils
 
-RUN go install github.com/nats-io/natscli/nats@v0.0.35
+RUN <<EOT 
+    mkdir -p ${GOPATH}
 
-RUN go install github.com/nats-io/stan.go/examples/stan-pub@latest
-RUN go install github.com/nats-io/stan.go/examples/stan-sub@latest
-RUN go install github.com/nats-io/stan.go/examples/stan-bench@latest
+    go install -ldflags="-X main.version=${VERSION_NSC}" github.com/nats-io/nsc/v2@v${VERSION_NSC}
+    go install github.com/nats-io/nats-top@v${VERSION_NATS_TOP}
+    go install github.com/nats-io/natscli/nats@v${VERSION_NATS}
+    go install github.com/nats-io/stan.go/examples/stan-pub@v${VERSION_STAN}
+    go install github.com/nats-io/stan.go/examples/stan-sub@v${VERSION_STAN}
+    go install github.com/nats-io/stan.go/examples/stan-bench@v${VERSION_STAN}
+EOT
 
-FROM alpine:3.17.0
+FROM base
+
+ARG TARGETARCH
+
+COPY --from=builder /go/${TARGETARCH}/bin/* /usr/local/bin
 
 RUN apk add -U --no-cache ca-certificates figlet jq
-
-COPY --from=builder /go/bin/* /usr/local/bin/
-
-RUN cd /usr/local/bin/ && \
-    ln -s nats-box nats-pub && \
-    ln -s nats-box nats-sub && \
-    ln -s nats-box nats-req && \
-    ln -s nats-box nats-rply
 
 WORKDIR /root
 
