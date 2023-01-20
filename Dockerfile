@@ -13,8 +13,6 @@ ARG VERSION_STAN
 
 ENV GOPATH /go/${TARGETARCH}
 
-RUN apk add --no-cache git binutils
-
 RUN <<EOT 
     mkdir -p ${GOPATH}
 
@@ -32,16 +30,20 @@ ARG TARGETARCH
 
 COPY --from=builder /go/${TARGETARCH}/bin/* /usr/local/bin
 
-RUN apk add -U --no-cache ca-certificates figlet jq
+RUN <<EOT
+    addgroup -g 1000 nats
+    adduser -D -u 1000 -G nats nats
+    apk add -U --no-cache ca-certificates figlet jq
+EOT
 
-WORKDIR /root
-
-USER root
+USER nats:nats
 
 ENV NKEYS_PATH /nsc/nkeys
 ENV XDG_DATA_HOME /nsc
 ENV XDG_CONFIG_HOME /nsc/.config
 
 COPY .profile $WORKDIR
+
+WORKDIR /home/nats
 
 ENTRYPOINT ["/bin/sh", "-l"]
