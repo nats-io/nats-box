@@ -35,15 +35,19 @@ RUN <<EOT
     set -e
     addgroup -g 1000 nats
     adduser -D -u 1000 -G nats nats
-    apk add -U --no-cache ca-certificates figlet jq
+    apk add -U --no-cache ca-certificates curl figlet jq
 EOT
 
 ENV NKEYS_PATH /nsc/nkeys
 ENV XDG_DATA_HOME /nsc
 ENV XDG_CONFIG_HOME /nsc/.config
 
-COPY .profile $WORKDIR
+COPY entrypoint.sh /entrypoint.sh
+
+COPY profile.sh /etc/profile.d
+
+RUN chmod +x /entrypoint.sh
 
 WORKDIR /root
 
-ENTRYPOINT ["/bin/sh", "-l"]
+ENTRYPOINT ["/entrypoint.sh"]
