@@ -14,6 +14,7 @@ ARG VERSION_STAN
 ENV GOPATH /go/${TARGETARCH}
 
 RUN <<EOT 
+    set -e
     mkdir -p ${GOPATH}
 
     go install -ldflags="-X main.version=${VERSION_NSC}" github.com/nats-io/nsc/v2@v${VERSION_NSC}
@@ -31,6 +32,7 @@ ARG TARGETARCH
 COPY --from=builder /go/${TARGETARCH}/bin/* /usr/local/bin
 
 RUN <<EOT
+    set -e
     addgroup -g 1000 nats
     adduser -D -u 1000 -G nats nats
     apk add -U --no-cache ca-certificates figlet jq
@@ -42,6 +44,6 @@ ENV XDG_CONFIG_HOME /nsc/.config
 
 COPY .profile $WORKDIR
 
-WORKDIR /home/nats
+WORKDIR /root
 
 ENTRYPOINT ["/bin/sh", "-l"]
