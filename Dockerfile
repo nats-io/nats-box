@@ -36,8 +36,6 @@ RUN <<EOT
     apk add -U --no-cache ca-certificates figlet jq
 EOT
 
-USER nats:nats
-
 ENV NKEYS_PATH /nsc/nkeys
 ENV XDG_DATA_HOME /nsc
 ENV XDG_CONFIG_HOME /nsc/.config
