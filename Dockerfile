@@ -1,42 +1,53 @@
-FROM golang:1.19-alpine AS builder
+#syntax=docker/dockerfile-upstream:1.4
+FROM golang AS builder
 
 LABEL maintainer "Derek Collison <derek@nats.io>"
 LABEL maintainer "Waldemar Quevedo <wally@nats.io>"
 
-WORKDIR $GOPATH/src/github.com/nats-io/
+ARG TARGETARCH
 
-RUN apk add -U --no-cache git binutils
+ARG VERSION_NATS
+ARG VERSION_NATS_TOP
+ARG VERSION_NSC
+ARG VERSION_STAN
 
-RUN go install github.com/nats-io/nats-top@v0.5.3
+ENV GOPATH /go/${TARGETARCH}
 
-RUN go install -ldflags="-X main.version=2.7.6" github.com/nats-io/nsc/v2@v2.7.6
+RUN <<EOT 
+    set -e
+    mkdir -p ${GOPATH}
 
-RUN go install github.com/nats-io/natscli/nats@v0.0.35
+    go install -ldflags="-X main.version=${VERSION_NSC}" github.com/nats-io/nsc/v2@v${VERSION_NSC}
+    go install github.com/nats-io/nats-top@v${VERSION_NATS_TOP}
+    go install github.com/nats-io/natscli/nats@v${VERSION_NATS}
+    go install github.com/nats-io/stan.go/examples/stan-pub@v${VERSION_STAN}
+    go install github.com/nats-io/stan.go/examples/stan-sub@v${VERSION_STAN}
+    go install github.com/nats-io/stan.go/examples/stan-bench@v${VERSION_STAN}
+EOT
 
-RUN go install github.com/nats-io/stan.go/examples/stan-pub@latest
-RUN go install github.com/nats-io/stan.go/examples/stan-sub@latest
-RUN go install github.com/nats-io/stan.go/examples/stan-bench@latest
+FROM base
 
-FROM alpine:3.17.0
+ARG TARGETARCH
 
-RUN apk add -U --no-cache ca-certificates figlet jq
+COPY --from=builder /go/${TARGETARCH}/bin/* /usr/local/bin
 
-COPY --from=builder /go/bin/* /usr/local/bin/
-
-RUN cd /usr/local/bin/ && \
-    ln -s nats-box nats-pub && \
-    ln -s nats-box nats-sub && \
-    ln -s nats-box nats-req && \
-    ln -s nats-box nats-rply
-
-WORKDIR /root
-
-USER root
+RUN <<EOT
+    set -e
+    addgroup -g 1000 nats
+    adduser -D -u 1000 -G nats nats
+    apk add -U --no-cache ca-certificates curl figlet jq
+EOT
 
 ENV NKEYS_PATH /nsc/nkeys
 ENV XDG_DATA_HOME /nsc
 ENV XDG_CONFIG_HOME /nsc/.config
 
-COPY .profile $WORKDIR
+COPY entrypoint.sh /entrypoint.sh
 
-ENTRYPOINT ["/bin/sh", "-l"]
+COPY profile.sh /etc/profile.d
+
+RUN chmod +x /entrypoint.sh
+
+WORKDIR /root
+
+ENTRYPOINT ["/entrypoint.sh"]
