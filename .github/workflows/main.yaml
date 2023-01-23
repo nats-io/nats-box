@@ -25,10 +25,16 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_CLI_TOKEN }}
 
+    - name: Get Image Tags
+      id: tags
+      run: |
+        version=$(sed 's/^v//' <<< ${{ github.ref_name }})
+        echo tags="latest,${version}" >> $GITHUB_OUTPUT
+
     - name: Build and Push
       uses: docker/bake-action@v2
       env:
-        TAGS: "latest,${{ github.ref_name }}"
+        TAGS: "${{ steps.tags.outputs.tags }}"
         REGISTRY: "natsio"
       with:
         push: true
