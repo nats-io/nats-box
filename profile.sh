@@ -42,4 +42,4 @@ function nats_top() {
 }
 
 figlet -p "nats-box" >&2
-echo "nats-box v0.13.4" >&2
+echo "nats-box v0.13.5" >&2
