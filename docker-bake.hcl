@@ -16,11 +16,11 @@ variable CI {
 }
 
 variable image_base {
-  default = "docker-image://alpine:3.17.1"
+  default = "docker-image://alpine:3.17.2"
 }
 
 variable image_golang {
-  default = "docker-image://golang:1.19.5-alpine"
+  default = "docker-image://golang:1.19.7-alpine"
 }
 
 ###################
@@ -65,7 +65,7 @@ target "nats-box" {
   args = {
     VERSION_NATS        = "0.0.35"
     VERSION_NATS_TOP    = "0.5.3"
-    VERSION_NSC         = "2.7.8"
+    VERSION_NSC         = "2.8.0"
     VERSION_STAN        = "0.10.4"
   }
   platforms  = get_platforms_multiarch()
