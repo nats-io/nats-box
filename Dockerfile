@@ -33,9 +33,11 @@ COPY --from=builder /go/${TARGETARCH}/bin/* /usr/local/bin
 
 RUN <<EOT
     set -e
+    apk -U upgrade
+    apk add --no-cache ca-certificates curl figlet jq
+    rm -rf /var/cache/apk && mkdir /var/cache/apk
     addgroup -g 1000 nats
     adduser -D -u 1000 -G nats nats
-    apk add -U --no-cache ca-certificates curl figlet jq
 EOT
 
 ENV NKEYS_PATH /nsc/nkeys
