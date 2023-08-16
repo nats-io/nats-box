@@ -10,14 +10,11 @@
 
 # nats-box
 
-A lightweight container with NATS and NATS Streaming utilities.
+A lightweight container with NATS utilities.
 
- * nats       - NATS management utility ([README](https://github.com/nats-io/natscli#readme))
- * nsc        - create NATS accounts and users
- * nats-top   - top-like tool for monitoring NATS servers
- * stan-pub   - publish messages to NATS Streaming
- * stan-sub   - subscribe to messages from NATS Streaming
- * stan-bench - benchmark stan
+- nats - NATS management utility ([README](https://github.com/nats-io/natscli#readme))
+- nsc - create NATS accounts and users
+- nats-top - top-like tool for monitoring NATS servers
 
 ## Getting started
 

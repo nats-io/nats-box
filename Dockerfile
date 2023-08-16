@@ -20,9 +20,6 @@ RUN <<EOT
     go install -ldflags="-X main.version=${VERSION_NSC}" github.com/nats-io/nsc/v2@v${VERSION_NSC}
     go install github.com/nats-io/nats-top@v${VERSION_NATS_TOP}
     go install github.com/nats-io/natscli/nats@v${VERSION_NATS}
-    go install github.com/nats-io/stan.go/examples/stan-pub@v${VERSION_STAN}
-    go install github.com/nats-io/stan.go/examples/stan-sub@v${VERSION_STAN}
-    go install github.com/nats-io/stan.go/examples/stan-bench@v${VERSION_STAN}
 EOT
 
 FROM base
