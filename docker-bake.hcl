@@ -15,14 +15,6 @@ variable CI {
   default = false
 }
 
-variable image_base {
-  default = "docker-image://alpine:3.17.3"
-}
-
-variable image_golang {
-  default = "docker-image://golang:1.19.7-alpine"
-}
-
 ###################
 ### Functions
 ###################
@@ -57,14 +49,10 @@ group "default" {
 ###################
 
 target "nats-box" {
-  contexts = {
-    base    = image_base
-    golang  = image_golang
-  }
   dockerfile = "Dockerfile"
   args = {
     VERSION_NATS        = "0.0.35"
-    VERSION_NATS_TOP    = "0.6.0"
+    VERSION_NATS_TOP    = "0.6.1"
     VERSION_NSC         = "2.8.0"
     VERSION_STAN        = "0.10.4"
   }
