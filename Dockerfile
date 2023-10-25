@@ -13,7 +13,7 @@ ARG VERSION_STAN
 
 ENV GOPATH /go/${TARGETARCH}
 
-RUN <<EOT 
+RUN <<EOT
     set -e
     mkdir -p ${GOPATH}
 
@@ -37,9 +37,9 @@ RUN <<EOT
     adduser -D -u 1000 -G nats nats
 EOT
 
-ENV NKEYS_PATH /nsc/nkeys
-ENV XDG_DATA_HOME /nsc
-ENV XDG_CONFIG_HOME /nsc/.config
+ENV NKEYS_PATH /home/nats/nsc/nkeys
+ENV XDG_DATA_HOME /home/nats/nsc
+ENV XDG_CONFIG_HOME /home/nats/nsc/.config
 
 COPY entrypoint.sh /entrypoint.sh
 
@@ -47,6 +47,8 @@ COPY profile.sh /etc/profile.d
 
 RUN chmod +x /entrypoint.sh
 
-WORKDIR /root
+WORKDIR /home/nats
+
+USER nats
 
 ENTRYPOINT ["/entrypoint.sh"]
