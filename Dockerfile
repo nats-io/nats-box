@@ -1,5 +1,5 @@
 #syntax=docker/dockerfile-upstream:1.6
-FROM golang:1.21.3-alpine AS builder
+FROM golang:1.21.5-alpine AS builder
 
 LABEL maintainer "Derek Collison <derek@nats.io>"
 LABEL maintainer "Waldemar Quevedo <wally@nats.io>"
@@ -9,11 +9,10 @@ ARG TARGETARCH
 ARG VERSION_NATS
 ARG VERSION_NATS_TOP
 ARG VERSION_NSC
-ARG VERSION_STAN
 
 ENV GOPATH /go/${TARGETARCH}
 
-RUN <<EOT 
+RUN <<EOT
     set -e
     mkdir -p ${GOPATH}
 
@@ -22,7 +21,7 @@ RUN <<EOT
     go install github.com/nats-io/natscli/nats@v${VERSION_NATS}
 EOT
 
-FROM alpine:3.18.4
+FROM alpine:3.19.0
 
 ARG TARGETARCH
 
@@ -33,8 +32,13 @@ RUN <<EOT
     apk -U upgrade
     apk add --no-cache ca-certificates curl figlet jq
     rm -rf /var/cache/apk && mkdir /var/cache/apk
+
     addgroup -g 1000 nats
     adduser -D -u 1000 -G nats nats
+
+    mkdir -p /nsc
+    chown nats:root /nsc
+    chmod 0775 /nsc
 EOT
 
 ENV NKEYS_PATH /nsc/nkeys
