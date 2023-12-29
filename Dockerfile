@@ -37,8 +37,8 @@ RUN <<EOT
     adduser -D -u 1000 -G nats nats
 
     mkdir -p /nsc
-    chown nats:root /nsc
-    chmod 0775 /nsc
+    chown nats:root /nsc /home/nats
+    chmod 0775 /nsc /home/nats
 EOT
 
 ENV NKEYS_PATH /nsc/nkeys

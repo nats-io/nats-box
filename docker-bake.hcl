@@ -78,6 +78,7 @@ target "nats-box-nonroot" {
 FROM nats-box
 ARG USER
 USER $USER:$USER
+WORKDIR /home/nats
 EOT
 
   tags = get_tags_suffix("nats-box", "nonroot")
