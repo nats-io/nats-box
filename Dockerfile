@@ -1,5 +1,5 @@
 #syntax=docker/dockerfile-upstream:1.6
-FROM golang:1.22.6-alpine AS builder
+FROM golang:1.23.2-alpine AS builder
 
 LABEL maintainer "Derek Collison <derek@nats.io>"
 LABEL maintainer "Waldemar Quevedo <wally@nats.io>"
@@ -21,7 +21,7 @@ RUN <<EOT
     go install github.com/nats-io/natscli/nats@v${VERSION_NATS}
 EOT
 
-FROM alpine:3.19.4
+FROM alpine:3.20.3
 
 ARG TARGETARCH
 
