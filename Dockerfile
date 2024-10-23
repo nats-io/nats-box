@@ -21,7 +21,7 @@ RUN <<EOT
     go install github.com/nats-io/natscli/nats@v${VERSION_NATS}
 EOT
 
-FROM alpine:3.19.3
+FROM alpine:3.19.4
 
 ARG TARGETARCH
 
