@@ -57,9 +57,9 @@ group "default" {
 target "nats-box" {
   dockerfile = "Dockerfile"
   args = {
-    VERSION_NATS        = "0.1.5"
-    VERSION_NATS_TOP    = "0.6.2"
-    VERSION_NSC         = "2.10.0"
+    VERSION_NATS        = "0.1.6"
+    VERSION_NATS_TOP    = "0.6.3"
+    VERSION_NSC         = "2.10.2"
   }
   platforms  = get_platforms_multiarch()
   tags       = get_tags("nats-box")
