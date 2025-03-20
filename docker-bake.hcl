@@ -57,7 +57,7 @@ group "default" {
 target "nats-box" {
   dockerfile = "Dockerfile"
   args = {
-    VERSION_NATS        = "0.1.6"
+    VERSION_NATS        = "0.2.0"
     VERSION_NATS_TOP    = "0.6.3"
     VERSION_NSC         = "2.10.2"
   }
