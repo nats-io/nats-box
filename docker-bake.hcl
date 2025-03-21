@@ -31,7 +31,7 @@ function "get_tags_suffix" {
 
 function "get_platforms_multiarch" {
   params = []
-  result = CI ? ["linux/amd64", "linux/arm/v6", "linux/arm/v7", "linux/arm64"] : []
+  result = CI ? ["linux/amd64", "linux/s390x", "linux/arm/v6", "linux/arm/v7", "linux/arm64"] : []
 }
 
 function "get_output" {
