@@ -7,6 +7,7 @@
 ```
 
 [![License Apache 2.0](https://img.shields.io/badge/License-Apache2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Docker Pulls](https://img.shields.io/docker/pulls/natsio/nats-box.svg?maxAge=604800)](https://hub.docker.com/r/natsio/nats-box)
 
 # nats-box
 
