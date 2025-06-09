@@ -17,7 +17,7 @@ RUN <<EOT
     mkdir -p ${GOPATH}
 
     go install -ldflags="-X main.version=${VERSION_NSC}" github.com/nats-io/nsc/v2@v${VERSION_NSC}
-    go install github.com/nats-io/nats-top@v${VERSION_NATS_TOP}
+    go install -ldflags="-X main.version=${VERSION_NATS_TOP}" github.com/nats-io/nats-top@v${VERSION_NATS_TOP}
     go install github.com/nats-io/natscli/nats@v${VERSION_NATS}
 EOT
 
