@@ -16,6 +16,8 @@ package cli
 import (
 	"bytes"
 	"context"
+	"encoding/json"
+	"errors"
 	"fmt"
 	"math"
 	"math/rand"
@@ -53,6 +55,7 @@ type benchCmd struct {
 	ackMode              string
 	doubleAck            bool
 	batchSize            int
+	batchApi             bool
 	replicas             int
 	purge                bool
 	sleep                time.Duration
@@ -136,6 +139,7 @@ func configureBenchCommand(app commandHost) {
 		f.Flag("dedup", "Sets a message id in the header to use JS Publish de-duplication").Default("false").UnNegatableBoolVar(&c.deDuplication)
 		f.Flag("dedupwindow", "Sets the duration of the stream's deduplication functionality").Default("2m").DurationVar(&c.deDuplicationWindow)
 		f.Flag("batch", "The number of asynchronous JS publish calls before waiting for all the publish acknowledgements (set to 1 for synchronous)").Default("500").IntVar(&c.batchSize)
+		f.Flag("batch-publish", "Use atomic batch API").Default("false").BoolVar(&c.batchApi)
 	}
 
 	addKVPutFlags := func(f *fisk.CmdClause) {
@@ -1653,6 +1657,11 @@ func (c *benchCmd) coreNATSRequester(nc *nats.Conn, progress *uiprogress.Bar, pa
 	return nil
 }
 
+type JSPubAckResponse struct {
+	Error *nats.APIError `json:"error,omitempty"`
+	*nats.PubAck
+}
+
 func (c *benchCmd) jsPublisher(nc *nats.Conn, progress *uiprogress.Bar, payloadSize int, numMsg int, idPrefix string, pubNumber string, offset int) error {
 	js, err := c.getJS(nc)
 	if err != nil {
@@ -1680,7 +1689,61 @@ func (c *benchCmd) jsPublisher(nc *nats.Conn, progress *uiprogress.Bar, payloadS
 
 	c.multisubjectFormat = fmt.Sprintf("%%0%dd", len(strconv.Itoa(c.multiSubjectMax)))
 
-	if c.batchSize != 1 {
+	if c.batchApi {
+		var msgs int
+		var resp *nats.Msg
+		batchId := idPrefix + "-" + pubNumber
+		for i := 0; i < numMsg; {
+			state = "Publishing"
+			msgs = min(c.batchSize, numMsg-i)
+
+			message.Header.Del("Nats-Batch-Commit")
+			for j := 0; j < msgs-1; j++ {
+				if c.deDuplication {
+					message.Header.Set(nats.MsgIdHdr, batchId+"-"+strconv.Itoa(i+j+offset))
+				}
+				message.Header.Set("Nats-Batch-Id", batchId)
+				message.Header.Set("Nats-Batch-Sequence", strconv.Itoa(j+1))
+				message.Subject = c.getPublishSubject(i + j + offset)
+				err = nc.PublishMsg(&message)
+				if err != nil {
+					return fmt.Errorf("publishing: %w", err)
+				}
+				time.Sleep(c.sleep)
+			}
+
+			if c.deDuplication {
+				message.Header.Set(nats.MsgIdHdr, batchId+"-"+strconv.Itoa(i+msgs+offset))
+			}
+			message.Header.Set("Nats-Batch-Id", batchId)
+			message.Header.Set("Nats-Batch-Sequence", strconv.Itoa(msgs))
+			message.Header.Set("Nats-Batch-Commit", "1")
+			message.Subject = c.getPublishSubject(i + msgs + offset)
+			state = "AckWait   "
+			resp, err = nc.RequestMsg(&message, opts().Timeout)
+			if err != nil {
+				return errors.New("JS ack timeout")
+			}
+			var ackResp JSPubAckResponse
+			if err := json.Unmarshal(resp.Data, &ackResp); err != nil {
+				return errors.New("JS ack invalid")
+			}
+			if ackResp.Error != nil {
+				return fmt.Errorf("nats: %w", ackResp.Error)
+			}
+			if ackResp.PubAck == nil || ackResp.PubAck.Stream == "" {
+				return errors.New("JS ack invalid")
+			}
+			time.Sleep(c.sleep)
+			if progress != nil {
+				for j := 0; j < msgs; j++ {
+					progress.Incr()
+				}
+			}
+			i += msgs
+		}
+		state = "Finished  "
+	} else if c.batchSize != 1 {
 		for i := 0; i < numMsg; {
 			state = "Publishing"
 			futures := make([]jetstream.PubAckFuture, min(c.batchSize, numMsg-i))
