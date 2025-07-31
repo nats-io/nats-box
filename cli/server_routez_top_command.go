@@ -136,7 +136,7 @@ func (c *SrvRoutezTopCmd) runRoutezTop(ctx context.Context, nc *nats.Conn) {
 
 		c.clearScreen()
 		header := func() {
-			glog.Printf("%-30s  %-20s  %-15s  %-10s  %-10s %-10s  %-10s  %-10s  %-10s  %-10s  %-14s  %-14s  %-10s",
+			glog.Printf("%-30s  %-20s  %-15s  %-10s  %-10s %-10s  %-10s  %-10s  %-10s  %-10s  %-14s  %-14s  %-10s  %-12s  %-12s",
 				"NAME",
 				"REMOTE",
 				"RTT",
@@ -150,10 +150,12 @@ func (c *SrvRoutezTopCmd) runRoutezTop(ctx context.Context, nc *nats.Conn) {
 				"OutMsgs/Sec",
 				"InBytes/Sec",
 				"OutBytes/Sec",
+				"InThroughput",
+				"OutThroughput",
 			)
 		}
 		header()
-		glog.Println(strings.Repeat("-", 190))
+		glog.Println(strings.Repeat("-", 215))
 
 		var totalInMsgs, totalOutMsgs, totalInBytes, totalOutBytes, totalPending int64
 		var totalInMsgsPerSec, totalOutMsgsPerSec, totalInBytesPerSec, totalOutBytesPerSec int64
@@ -181,7 +183,7 @@ func (c *SrvRoutezTopCmd) runRoutezTop(ctx context.Context, nc *nats.Conn) {
 			totalInBytesPerSec += inBytesPerSec
 			totalOutBytesPerSec += outBytesPerSec
 
-			glog.Printf("%-30s  %-20s  %-15s  %-10s  %-10s %-10s  %-10s  %-10s  %-10s  %-10s  %-14s  %-14s  %-10s",
+			glog.Printf("%-30s  %-20s  %-15s  %-10s  %-10s %-10s  %-10s  %-10s  %-10s  %-10s  %-14s  %-14s  %-10s  %-12sG %-12sG",
 				key,
 				r.RemoteName,
 				r.RTT,
@@ -195,11 +197,13 @@ func (c *SrvRoutezTopCmd) runRoutezTop(ctx context.Context, nc *nats.Conn) {
 				c.routezNsize(outMsgsPerSec),
 				c.routezPsize(inBytesPerSec),
 				c.routezPsize(outBytesPerSec),
+				c.bytesToGbps(inBytesPerSec),
+				c.bytesToGbps(outBytesPerSec),
 			)
 		}
-		glog.Println(strings.Repeat("-", 190))
+		glog.Println(strings.Repeat("-", 215))
 		header()
-		glog.Printf("%-30s  %-20s  %-15s  %-10s  %-10s %-10s  %-10s  %-10s  %-10s  %-10s  %-14s  %-14s  %-10s",
+		glog.Printf("%-30s  %-20s  %-15s  %-10s  %-10s %-10s  %-10s  %-10s  %-10s  %-10s  %-14s  %-14s  %-10s  %-12sG %-12sG",
 			fmt.Sprintf("ROUTES: %d", len(keys)),
 			"",
 			"",
@@ -213,6 +217,8 @@ func (c *SrvRoutezTopCmd) runRoutezTop(ctx context.Context, nc *nats.Conn) {
 			c.routezPsize(totalOutMsgsPerSec),
 			c.routezPsize(totalInBytesPerSec),
 			c.routezPsize(totalOutBytesPerSec),
+			c.bytesToGbps(totalInBytesPerSec),
+			c.bytesToGbps(totalOutBytesPerSec),
 		)
 		glog.Println(time.Now().UTC())
 		prevRoutez = routez
@@ -263,6 +269,18 @@ func (c *SrvRoutezTopCmd) routezNsize(s int64) string {
 	default:
 		return fmt.Sprintf("%.1fT", size/t)
 	}
+}
+
+// Convert bytes per second to Gbps
+func (c *SrvRoutezTopCmd) bytesToGbps(bytesPerSec int64) string {
+	if bytesPerSec <= 0 {
+		return "0.00"
+	}
+	// Convert bytes to bits, then to Gbps
+	bitsPerSec := float64(bytesPerSec) * 8
+	gbps := bitsPerSec / (1000 * 1000 * 1000)
+	
+	return fmt.Sprintf("%.2f", gbps)
 }
 
 // Fetch options for routez
