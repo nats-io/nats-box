@@ -31,7 +31,7 @@ import (
 	"github.com/nats-io/jsm.go/api"
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/micro"
-	iu "github.com/nats-io/natscli/internal/util"
+	iu "github.com/nats-io/nats-box/internal/util"
 )
 
 type serviceCmd struct {

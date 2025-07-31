@@ -16,7 +16,7 @@ package cli
 import (
 	"fmt"
 	"github.com/choria-io/fisk"
-	"github.com/nats-io/natscli/plugins"
+	"github.com/nats-io/nats-box/plugins"
 )
 
 type pluginsCmd struct {

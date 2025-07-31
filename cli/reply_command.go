@@ -15,7 +15,7 @@ package cli
 
 import (
 	"fmt"
-	iu "github.com/nats-io/natscli/internal/util"
+	iu "github.com/nats-io/nats-box/internal/util"
 	"math/rand"
 	"os"
 	"os/exec"

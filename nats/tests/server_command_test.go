@@ -29,7 +29,7 @@ import (
 	"github.com/nats-io/jsm.go"
 	"github.com/nats-io/nats-server/v2/server"
 	"github.com/nats-io/nats.go"
-	"github.com/nats-io/natscli/internal/scaffold"
+	"github.com/nats-io/nats-box/internal/scaffold"
 )
 
 const sysUserCreds = "--user=sys --password=pass"

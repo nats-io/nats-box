@@ -23,8 +23,8 @@ import (
 	"os"
 	"sort"
 
-	au "github.com/nats-io/natscli/internal/auth"
-	iu "github.com/nats-io/natscli/internal/util"
+	au "github.com/nats-io/nats-box/internal/auth"
+	iu "github.com/nats-io/nats-box/internal/util"
 
 	"github.com/nats-io/nkeys"
 

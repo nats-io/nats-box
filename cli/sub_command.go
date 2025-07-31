@@ -34,8 +34,8 @@ import (
 	"github.com/nats-io/nats-server/v2/server"
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
-	"github.com/nats-io/natscli/internal/asciigraph"
-	iu "github.com/nats-io/natscli/internal/util"
+	"github.com/nats-io/nats-box/internal/asciigraph"
+	iu "github.com/nats-io/nats-box/internal/util"
 	"github.com/synadia-io/orbit.go/jetstreamext"
 	terminal "golang.org/x/term"
 )

@@ -26,7 +26,7 @@ import (
 	"github.com/nats-io/jsm.go/monitor"
 	"github.com/nats-io/jsm.go/natscontext"
 	"github.com/nats-io/nats.go"
-	iu "github.com/nats-io/natscli/internal/util"
+	iu "github.com/nats-io/nats-box/internal/util"
 	"github.com/prometheus/client_golang/prometheus"
 )
 

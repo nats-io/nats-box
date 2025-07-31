@@ -16,7 +16,7 @@ package scaffold
 import (
 	"html/template"
 
-	"github.com/nats-io/natscli/internal/auth"
+	"github.com/nats-io/nats-box/internal/auth"
 	ab "github.com/synadia-io/jwt-auth-builder.go"
 )
 

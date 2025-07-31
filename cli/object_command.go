@@ -33,7 +33,7 @@ import (
 	"github.com/nats-io/jsm.go"
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
-	iu "github.com/nats-io/natscli/internal/util"
+	iu "github.com/nats-io/nats-box/internal/util"
 )
 
 type objCommand struct {

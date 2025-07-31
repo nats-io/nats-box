@@ -30,7 +30,7 @@ import (
 
 	"github.com/kballard/go-shellquote"
 
-	"github.com/nats-io/natscli/cli"
+	"github.com/nats-io/nats-box/cli"
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/nats-io/jsm.go"

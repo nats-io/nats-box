@@ -26,7 +26,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nats-io/natscli/internal/scaffold"
+	"github.com/nats-io/nats-box/internal/scaffold"
 	"gopkg.in/yaml.v2"
 )
 

@@ -27,7 +27,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/nats-io/jsm.go/schemas"
 	"github.com/nats-io/nats-server/v2/server"
-	iu "github.com/nats-io/natscli/internal/util"
+	iu "github.com/nats-io/nats-box/internal/util"
 )
 
 type errCmd struct {

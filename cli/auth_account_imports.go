@@ -20,8 +20,8 @@ import (
 	"sort"
 	"strings"
 
-	au "github.com/nats-io/natscli/internal/auth"
-	"github.com/nats-io/natscli/internal/util"
+	au "github.com/nats-io/nats-box/internal/auth"
+	"github.com/nats-io/nats-box/internal/util"
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/choria-io/fisk"

@@ -1,4 +1,4 @@
-module github.com/nats-io/natscli
+module github.com/nats-io/nats-box
 
 go 1.23.9
 

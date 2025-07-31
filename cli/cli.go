@@ -22,7 +22,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nats-io/natscli/options"
+	"github.com/nats-io/nats-box/options"
 
 	"github.com/choria-io/fisk"
 )

@@ -32,8 +32,8 @@ import (
 
 	"github.com/jedib0t/go-pretty/v6/progress"
 
-	"github.com/nats-io/natscli/internal/asciigraph"
-	iu "github.com/nats-io/natscli/internal/util"
+	"github.com/nats-io/nats-box/internal/asciigraph"
+	iu "github.com/nats-io/nats-box/internal/util"
 	terminal "golang.org/x/term"
 
 	"github.com/AlecAivazis/survey/v2"
@@ -45,7 +45,7 @@ import (
 	"github.com/nats-io/jsm.go/api"
 	"github.com/nats-io/jsm.go/balancer"
 	"github.com/nats-io/nats.go"
-	"github.com/nats-io/natscli/columns"
+	"github.com/nats-io/nats-box/columns"
 	"gopkg.in/yaml.v3"
 )
 

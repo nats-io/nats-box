@@ -1,6 +1,6 @@
 description: Generates configuration to connect a leafnode to Synadia Cloud
-contact: https://github.com/nats-io/natscli/issues
-source: https://github.com/nats-io/natscli/
+contact: https://github.com/nats-io/nats-box/issues
+source: https://github.com/nats-io/nats-box/
 version: 0.0.1
 post_scaffold: |
   A NATS Server Leafnode configuration was written in {{ ._target }}/leafnode.conf

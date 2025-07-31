@@ -15,7 +15,7 @@ package util
 
 import (
 	"github.com/nats-io/jsm.go/api"
-	"github.com/nats-io/natscli/columns"
+	"github.com/nats-io/nats-box/columns"
 )
 
 // RenderMetaApi draws the _nats.* metadata on streams and consumers

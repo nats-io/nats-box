@@ -37,8 +37,8 @@ import (
 	"github.com/google/shlex"
 	"github.com/nats-io/jsm.go"
 	"github.com/nats-io/nats.go"
-	"github.com/nats-io/natscli/internal/asciigraph"
-	"github.com/nats-io/natscli/options"
+	"github.com/nats-io/nats-box/internal/asciigraph"
+	"github.com/nats-io/nats-box/options"
 	"github.com/nats-io/nkeys"
 	terminal "golang.org/x/term"
 )

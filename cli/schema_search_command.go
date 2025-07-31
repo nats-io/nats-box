@@ -15,7 +15,7 @@ package cli
 
 import (
 	"fmt"
-	iu "github.com/nats-io/natscli/internal/util"
+	iu "github.com/nats-io/nats-box/internal/util"
 	"strings"
 
 	"github.com/choria-io/fisk"

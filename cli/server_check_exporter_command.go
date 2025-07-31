@@ -18,7 +18,7 @@ import (
 	"net/http"
 
 	"github.com/choria-io/fisk"
-	"github.com/nats-io/natscli/internal/exporter"
+	"github.com/nats-io/nats-box/internal/exporter"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )

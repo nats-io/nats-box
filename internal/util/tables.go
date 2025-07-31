@@ -20,7 +20,7 @@ import (
 
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/jedib0t/go-pretty/v6/text"
-	"github.com/nats-io/natscli/options"
+	"github.com/nats-io/nats-box/options"
 	terminal "golang.org/x/term"
 )
 

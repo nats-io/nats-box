@@ -23,7 +23,7 @@ import (
 	"github.com/nats-io/jsm.go/api"
 	"github.com/nats-io/jsm.go/audit"
 	"github.com/nats-io/jsm.go/audit/archive"
-	iu "github.com/nats-io/natscli/internal/util"
+	iu "github.com/nats-io/nats-box/internal/util"
 )
 
 type auditAnalyzeCmd struct {

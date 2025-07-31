@@ -19,7 +19,7 @@ A command line utility to interact with and manage NATS.
 
 ### Installation
 
-Releases are [published to GitHub](https://github.com/nats-io/natscli/releases/) where Zip, RPMs and DEBs for various
+Releases are [published to GitHub](https://github.com/nats-io/nats-box/releases/) where Zip, RPMs and DEBs for various
 operating systems can be found.
 
 #### Installation via go install
@@ -28,13 +28,13 @@ The nats cli can be installed directly via `go install`.
 To install the latest version:
 
 ```
-go install github.com/nats-io/natscli/nats@latest
+go install github.com/nats-io/nats-box/nats@latest
 ```
 
 To install a specific release:
 
 ```
-go install github.com/nats-io/natscli/nats@v0.0.33
+go install github.com/nats-io/nats-box/nats@v0.0.33
 ```
 
 #### macOS installation via Homebrew

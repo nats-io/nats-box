@@ -30,8 +30,8 @@ import (
 	"github.com/nats-io/jsm.go"
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
-	"github.com/nats-io/natscli/columns"
-	iu "github.com/nats-io/natscli/internal/util"
+	"github.com/nats-io/nats-box/columns"
+	iu "github.com/nats-io/nats-box/internal/util"
 	"golang.org/x/term"
 )
 

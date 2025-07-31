@@ -25,8 +25,8 @@ import (
 	"github.com/nats-io/jsm.go/api/server/zmonitor"
 	"github.com/nats-io/nats-server/v2/server"
 	"github.com/nats-io/nats.go"
-	"github.com/nats-io/natscli/internal/asciigraph"
-	iu "github.com/nats-io/natscli/internal/util"
+	"github.com/nats-io/nats-box/internal/asciigraph"
+	iu "github.com/nats-io/nats-box/internal/util"
 	terminal "golang.org/x/term"
 )
 

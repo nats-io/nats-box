@@ -18,7 +18,7 @@ import (
 	"fmt"
 
 	"github.com/nats-io/nats-server/v2/server"
-	"github.com/nats-io/natscli/internal/util"
+	"github.com/nats-io/nats-box/internal/util"
 )
 
 const (

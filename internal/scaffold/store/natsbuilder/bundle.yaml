@@ -1,6 +1,6 @@
 description: Generates development NATS clusters for Docker Compose
-contact: https://github.com/nats-io/natscli/issues
-source: https://github.com/nats-io/natscli/
+contact: https://github.com/nats-io/nats-box/issues
+source: https://github.com/nats-io/nats-box/
 version: 0.0.1
 post_scaffold: |
   {{- $base_port := .port  -}}

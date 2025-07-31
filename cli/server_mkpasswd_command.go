@@ -17,7 +17,7 @@ import (
 	"fmt"
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/choria-io/fisk"
-	iu "github.com/nats-io/natscli/internal/util"
+	iu "github.com/nats-io/nats-box/internal/util"
 	"golang.org/x/crypto/bcrypt"
 )
 

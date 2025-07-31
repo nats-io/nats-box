@@ -24,8 +24,8 @@ import (
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/nats-io/jwt/v2"
-	"github.com/nats-io/natscli/columns"
-	iu "github.com/nats-io/natscli/internal/util"
+	"github.com/nats-io/nats-box/columns"
+	iu "github.com/nats-io/nats-box/internal/util"
 	ab "github.com/synadia-io/jwt-auth-builder.go"
 	"github.com/synadia-io/jwt-auth-builder.go/providers/nsc"
 )

@@ -7,11 +7,11 @@ import (
 	"strings"
 	"time"
 
-	iu "github.com/nats-io/natscli/internal/util"
+	iu "github.com/nats-io/nats-box/internal/util"
 
 	"github.com/choria-io/fisk"
 	"github.com/nats-io/nats-server/v2/server"
-	"github.com/nats-io/natscli/columns"
+	"github.com/nats-io/nats-box/columns"
 )
 
 type srvAccountCommand struct {

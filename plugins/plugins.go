@@ -24,7 +24,7 @@ import (
 	"strings"
 
 	"github.com/choria-io/fisk"
-	iu "github.com/nats-io/natscli/internal/util"
+	iu "github.com/nats-io/nats-box/internal/util"
 )
 
 var validNames = regexp.MustCompile(`^[a-z]+$`)

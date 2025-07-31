@@ -7,7 +7,7 @@ import (
 
 	"github.com/choria-io/fisk"
 	"github.com/nats-io/jsm.go/audit"
-	iu "github.com/nats-io/natscli/internal/util"
+	iu "github.com/nats-io/nats-box/internal/util"
 )
 
 type auditChecksCommand struct {

@@ -16,7 +16,7 @@ package cli
 import (
 	"encoding/json"
 	"fmt"
-	iu "github.com/nats-io/natscli/internal/util"
+	iu "github.com/nats-io/nats-box/internal/util"
 	"os"
 	"sort"
 	"strings"

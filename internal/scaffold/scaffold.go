@@ -26,12 +26,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	au "github.com/nats-io/natscli/internal/auth"
+	au "github.com/nats-io/nats-box/internal/auth"
 	"gopkg.in/yaml.v3"
 
 	"github.com/choria-io/scaffold"
 	"github.com/choria-io/scaffold/forms"
-	iu "github.com/nats-io/natscli/internal/util"
+	iu "github.com/nats-io/nats-box/internal/util"
 )
 
 //go:embed all:store

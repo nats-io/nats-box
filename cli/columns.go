@@ -15,7 +15,7 @@ package cli
 
 import (
 	"github.com/dustin/go-humanize"
-	"github.com/nats-io/natscli/columns"
+	"github.com/nats-io/nats-box/columns"
 )
 
 func newColumns(heading string, a ...any) *columns.Writer {

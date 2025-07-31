@@ -42,8 +42,8 @@ import (
 	"github.com/nats-io/nats-server/v2/server"
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
-	iu "github.com/nats-io/natscli/internal/util"
-	"github.com/nats-io/natscli/options"
+	iu "github.com/nats-io/nats-box/internal/util"
+	"github.com/nats-io/nats-box/options"
 )
 
 var ErrContextNotFound = errors.New("context not found")
