@@ -270,7 +270,7 @@ func (c *benchCmd) processActionArgs() error {
 	// for pubs/request/and put only
 	if c.msgSizeString != "" {
 		msgSize, err := iu.ParseStringAsBytes(c.msgSizeString, 32)
-		if err != nil || msgSize <= 0 || msgSize > math.MaxInt {
+		if err != nil || msgSize < 0 || msgSize > math.MaxInt {
 			return fmt.Errorf("can not parse or invalid the value specified for the message size: %s", c.msgSizeString)
 		} else {
 			c.msgSize = int(msgSize)
