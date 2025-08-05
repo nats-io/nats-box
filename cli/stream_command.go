@@ -192,6 +192,7 @@ func configureStreamCommand(app commandHost) {
 
 	addCreateFlags := func(f *fisk.CmdClause, edit bool) {
 		f.Flag("subjects", "Subjects that are consumed by the Stream").Default().StringsVar(&c.subjects)
+		f.Flag("filter-subject", "Subjects that are consumed by the Stream").Default().StringsVar(&c.subjects)
 		f.Flag("description", "Sets a contextual description for the stream").StringVar(&c.description)
 		if !edit {
 			f.Flag("storage", "Storage backend to use (file, memory)").EnumVar(&c.storage, "file", "f", "memory", "m")
@@ -202,9 +203,7 @@ func configureStreamCommand(app commandHost) {
 		f.Flag("tags", "Backward compatibility only, use --tag").Hidden().IsSetByUser(&c.placementTagsSet).StringsVar(&c.placementTags)
 		f.Flag("cluster", "Place the stream on a specific cluster").IsSetByUser(&c.placementClusterSet).StringVar(&c.placementCluster)
 		f.Flag("ack", "Acknowledge publishes").Default("true").BoolVar(&c.ack)
-		if !edit {
-			f.Flag("retention", "Defines a retention policy (limits, interest, work)").EnumVar(&c.retentionPolicyS, "limits", "interest", "workq", "work")
-		}
+		f.Flag("retention", "Defines a retention policy (limits, interest, workq, work, workqueue)").EnumVar(&c.retentionPolicyS, "limits", "interest", "workq", "work", "workqueue")
 		f.Flag("discard", "Defines the discard policy (new, old)").EnumVar(&c.discardPolicy, "new", "old")
 		f.Flag("discard-per-subject", "Sets the 'new' discard policy and applies it to every subject in the stream").IsSetByUser(&c.discardPerSubjSet).BoolVar(&c.discardPerSubj)
 		if !edit {
@@ -2496,7 +2495,7 @@ func (c *streamCmd) retentionPolicyFromString() api.RetentionPolicy {
 		return api.LimitsPolicy
 	case "interest":
 		return api.InterestPolicy
-	case "work queue", "workq", "work":
+	case "work queue", "workq", "work", "workqueue":
 		return api.WorkQueuePolicy
 	default:
 		fisk.Fatalf("invalid retention policy %s", c.retentionPolicyS)
