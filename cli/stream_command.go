@@ -165,6 +165,10 @@ type streamCmd struct {
 	allowAtomicBatchIsSet     bool
 	allowCounter              bool
 	allowCounterIsSet         bool
+	allowAsyncFlush           bool
+	allowAsyncFlushIsSet      bool
+	managesConsumers          bool
+	managesConsumersIsSet     bool
 	subjectDeleteMarkerTTLSet bool
 	subjectDeleteMarkerTTL    time.Duration
 	apiLevel                  int
@@ -220,6 +224,8 @@ func configureStreamCommand(app commandHost) {
 		f.Flag("source", "Source data from other Streams, merging into this one").PlaceHolder("STREAM").StringsVar(&c.sources)
 		f.Flag("allow-batch", "Allow atomic batch publishing").IsSetByUser(&c.allowAtomicBatchIsSet).BoolVar(&c.allowAtomicBatch)
 		f.Flag("allow-counter", "Configures the Stream as a distributed counter").IsSetByUser(&c.allowCounterIsSet).BoolVar(&c.allowCounter)
+		f.Flag("allow-async-flush", "Allow replicated streams to asynchronously flush to the stream, improving throughput").IsSetByUser(&c.allowAsyncFlushIsSet).BoolVar(&c.allowAsyncFlush)
+		f.Flag("manages-consumers", "Enable the stream to manage its consumers").IsSetByUser(&c.managesConsumersIsSet).BoolVar(&c.managesConsumers)
 		f.Flag("allow-rollup", "Allows roll-ups to be done by publishing messages with special headers").IsSetByUser(&c.allowRollupSet).BoolVar(&c.allowRollup)
 		f.Flag("deny-delete", "Deny messages from being deleted via the API").IsSetByUser(&c.denyDeleteSet).BoolVar(&c.denyDelete)
 		f.Flag("deny-purge", "Deny entire stream or subject purges via the API").IsSetByUser(&c.denyPurgeSet).BoolVar(&c.denyPurge)
@@ -1897,6 +1903,14 @@ func (c *streamCmd) copyAndEditStream(cfg api.StreamConfig, pc *fisk.ParseContex
 		cfg.AllowMsgCounter = c.allowCounter
 	}
 
+	if c.allowAsyncFlushIsSet {
+		cfg.AllowAsyncFlush = c.allowAsyncFlush
+	}
+
+	if c.managesConsumersIsSet {
+		cfg.ManagesConsumers = c.managesConsumers
+	}
+
 	if c.discardPerSubjSet {
 		cfg.DiscardNewPer = c.discardPerSubj
 	}
@@ -2054,7 +2068,7 @@ func (c *streamCmd) editAction(pc *fisk.ParseContext) error {
 		}
 	}
 
-	if cfg.AllowAtomicPublish || cfg.AllowMsgCounter {
+	if cfg.AllowAtomicPublish || cfg.AllowMsgCounter || cfg.AllowAsyncFlush || cfg.ManagesConsumers {
 		err := c.checkCompatability(c.mgr, &cfg)
 		if err != nil {
 			return err
@@ -2156,6 +2170,8 @@ func (c *streamCmd) showStreamConfig(cols *columns.Writer, cfg api.StreamConfig)
 	cols.AddRowIf("Mirror Direct Get", cfg.MirrorDirect, cfg.MirrorDirect)
 	cols.AddRow("Allows Batch Publish", cfg.AllowAtomicPublish)
 	cols.AddRow("Allows Counters", cfg.AllowMsgCounter)
+	cols.AddRowIf("Allows Async Flush", cfg.AllowAsyncFlush, cfg.AllowAsyncFlush)
+	cols.AddRowIf("Manages Consumers", cfg.ManagesConsumers, cfg.ManagesConsumers)
 	cols.AddRow("Allows Msg Delete", !cfg.DenyDelete)
 	cols.AddRow("Allows Per-Message TTL", cfg.AllowMsgTTL)
 	cols.AddRow("Allows Purge", !cfg.DenyPurge)
@@ -2784,6 +2800,8 @@ func (c *streamCmd) prepareConfig(_ *fisk.ParseContext, requireSize bool) api.St
 		AllowMsgTTL:            c.allowMsgTTL,
 		AllowAtomicPublish:     c.allowAtomicBatch,
 		AllowMsgCounter:        c.allowCounter,
+		AllowAsyncFlush:        c.allowAsyncFlush,
+		ManagesConsumers:       c.managesConsumers,
 		SubjectDeleteMarkerTTL: c.subjectDeleteMarkerTTL,
 		MirrorDirect:           c.allowMirrorDirectSet,
 		DiscardNewPer:          c.discardPerSubj,
@@ -3137,7 +3155,7 @@ func (c *streamCmd) addAction(pc *fisk.ParseContext) (err error) {
 		return os.WriteFile(c.outFile, j, 0600)
 	}
 
-	if cfg.AllowAtomicPublish || cfg.AllowMsgCounter {
+	if cfg.AllowAtomicPublish || cfg.AllowMsgCounter || cfg.AllowAsyncFlush || cfg.ManagesConsumers {
 		err := c.checkCompatability(mgr, &cfg)
 		if err != nil {
 			return err
@@ -3164,6 +3182,20 @@ func (c streamCmd) checkCompatability(mgr *jsm.Manager, cfg *api.StreamConfig) e
 
 	if cfg.AllowMsgCounter {
 		err := iu.RequireAPILevel(mgr, 2, "Distributed Counters requires NATS Server 2.12")
+		if err != nil {
+			return err
+		}
+	}
+
+	if cfg.AllowAsyncFlush {
+		err := iu.RequireAPILevel(mgr, 2, "Async Flush requires NATS Server 2.12")
+		if err != nil {
+			return err
+		}
+	}
+
+	if cfg.ManagesConsumers {
+		err := iu.RequireAPILevel(mgr, 2, "Managed Consumers requires NATS Server 2.12")
 		if err != nil {
 			return err
 		}

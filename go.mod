@@ -71,3 +71,11 @@ require (
 	golang.org/x/time v0.12.0 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect
 )
+
+// replace github.com/nats-io/nats.go => ./src/nats.go
+
+// replace github.com/nats-io/jsm.go => ./src/jsm.go
+
+replace github.com/nats-io/nats.go => github.com/wallyqs/nats.go v0.0.0-20250805235422-a72990c54b37
+
+replace github.com/nats-io/jsm.go => github.com/wallyqs/jsm.go v0.0.0-20250805231950-6df5e3f7b0a4

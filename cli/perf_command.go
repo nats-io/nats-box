@@ -134,7 +134,7 @@ func (c *perfCmd) perfAction(_ *fisk.ParseContext) error {
 			wg.Done()
 		}
 		if received%10000 == 0 {
-			fmt.Printf("#")
+			// fmt.Printf("#")
 		}
 	})
 	if err != nil {
@@ -191,7 +191,7 @@ func (c *perfCmd) perfAction(_ *fisk.ParseContext) error {
 		if maxInflight > 0 {
 			if cin := atomic.LoadInt64(&inflight); cin > 0 && cin > maxInflight/4 && time.Since(lastDelay) > stall {
 				mu.Lock()
-				fmt.Printf("*")
+				// fmt.Printf("*")
 				totalStalls++
 				t0 := time.Now()
 				cond.Wait()
