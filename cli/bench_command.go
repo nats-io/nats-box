@@ -799,6 +799,9 @@ func (c *benchCmd) jspubAction(_ *fisk.ParseContext) error {
 	startwg := &sync.WaitGroup{}
 	donewg := &sync.WaitGroup{}
 	errChan := make(chan error, c.numClients)
+	
+	// Track overall benchmark timing
+	var benchStart time.Time
 
 	// create the stream for the benchmark (and purge it)
 	nc, err := nats.Connect(opts().Config.ServerURL(), natsOpts()...)
@@ -858,8 +861,10 @@ func (c *benchCmd) jspubAction(_ *fisk.ParseContext) error {
 	}
 
 	startwg.Wait()
+	benchStart = time.Now() // Start timing when all publishers are ready
 	close(trigger)
 	donewg.Wait()
+	benchEnd := time.Now() // End timing when all publishers are done
 
 	var err2 error
 	for i := 0; i < c.numClients; i++ {
@@ -877,9 +882,19 @@ func (c *benchCmd) jspubAction(_ *fisk.ParseContext) error {
 	}
 
 	bm.Close()
+	
 	err = c.printResults(bm)
 	if err != nil {
 		return err
+	}
+	
+	// Calculate and display total throughput for JS publish
+	elapsed := benchEnd.Sub(benchStart).Seconds()
+	if elapsed > 0 {
+		totalBytes := float64(c.numMsg) * float64(c.msgSize)
+		throughputMBps := (totalBytes / (1024 * 1024)) / elapsed
+		throughputGbps := (totalBytes * 8 / (1000 * 1000 * 1000)) / elapsed
+		fmt.Printf("\nTotal throughput: %.2f MB/s (%.2f Gbps)\n", throughputMBps, throughputGbps)
 	}
 
 	return nil
