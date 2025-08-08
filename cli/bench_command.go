@@ -50,6 +50,7 @@ type benchCmd struct {
 	storage              string
 	streamOrBucketName   string
 	createStream         bool
+	streamExplicitlySet  bool
 	streamMaxBytesString string
 	streamMaxBytes       int64
 	ackMode              string
@@ -118,7 +119,10 @@ func configureBenchCommand(app commandHost) {
 	}
 
 	addJSCommonFlags := func(f *fisk.CmdClause) {
-		f.Flag("stream", "The name of the stream to create or use").Default(benchDefaultStreamName).StringVar(&c.streamOrBucketName)
+		f.Flag("stream", "The name of the stream to create or use").Default(benchDefaultStreamName).PreAction(func(ctx *fisk.ParseContext) error {
+			c.streamExplicitlySet = true
+			return nil
+		}).StringVar(&c.streamOrBucketName)
 		f.Flag("sleep", "Sleep for the specified interval between publications").Default("0s").PlaceHolder("DURATION").DurationVar(&c.sleep)
 		f.Flag("purge", "Purge the stream before running").UnNegatableBoolVar(&c.purge)
 	}
@@ -811,7 +815,7 @@ func (c *benchCmd) jspubAction(_ *fisk.ParseContext) error {
 
 	var s jetstream.Stream
 
-	if c.createStream {
+	if c.createStream && !c.streamExplicitlySet {
 		// create the stream with our attributes, will create it if it doesn't exist or make sure the existing one has the same attributes
 		s, err = js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{Name: c.streamOrBucketName, Subjects: []string{c.getSubscribeSubject()}, Retention: jetstream.LimitsPolicy, Discard: jetstream.DiscardNew, Storage: c.storageType(), Replicas: c.replicas, MaxBytes: c.streamMaxBytes, Duplicates: c.deDuplicationWindow})
 		if err != nil {
