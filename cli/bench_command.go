@@ -28,8 +28,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nats-io/nats.go/jetstream"
 	iu "github.com/nats-io/nats-box/internal/util"
+	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/choria-io/fisk"
 	"github.com/dustin/go-humanize"
@@ -73,6 +73,7 @@ type benchCmd struct {
 	payloadFilename      string
 	hdrs                 []string
 	filterSubjects       []string
+	skipStream           bool
 }
 
 const (
@@ -144,6 +145,7 @@ func configureBenchCommand(app commandHost) {
 		f.Flag("dedupwindow", "Sets the duration of the stream's deduplication functionality").Default("2m").DurationVar(&c.deDuplicationWindow)
 		f.Flag("batch", "The number of asynchronous JS publish calls before waiting for all the publish acknowledgements (set to 1 for synchronous)").Default("500").IntVar(&c.batchSize)
 		f.Flag("batch-publish", "Use atomic batch API").Default("false").BoolVar(&c.batchApi)
+		f.Flag("skip-stream", "Skip checking if the stream exists").Default("false").BoolVar(&c.skipStream)
 	}
 
 	addKVPutFlags := func(f *fisk.CmdClause) {
@@ -799,7 +801,7 @@ func (c *benchCmd) jspubAction(_ *fisk.ParseContext) error {
 	startwg := &sync.WaitGroup{}
 	donewg := &sync.WaitGroup{}
 	errChan := make(chan error, c.numClients)
-	
+
 	// Track overall benchmark timing
 	var benchStart time.Time
 
@@ -818,22 +820,24 @@ func (c *benchCmd) jspubAction(_ *fisk.ParseContext) error {
 
 	var s jetstream.Stream
 
-	if c.createStream && !c.streamExplicitlySet {
-		// create the stream with our attributes, will create it if it doesn't exist or make sure the existing one has the same attributes
-		s, err = js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{Name: c.streamOrBucketName, Subjects: []string{c.getSubscribeSubject()}, Retention: jetstream.LimitsPolicy, Discard: jetstream.DiscardNew, Storage: c.storageType(), Replicas: c.replicas, MaxBytes: c.streamMaxBytes, Duplicates: c.deDuplicationWindow})
-		if err != nil {
-			return fmt.Errorf("could not create the stream. If you want to delete and re-define the stream use `nats stream delete %s`: %w", c.streamOrBucketName, err)
+	if !c.skipStream {
+		if c.createStream && !c.streamExplicitlySet {
+			// create the stream with our attributes, will create it if it doesn't exist or make sure the existing one has the same attributes
+			s, err = js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{Name: c.streamOrBucketName, Subjects: []string{c.getSubscribeSubject()}, Retention: jetstream.LimitsPolicy, Discard: jetstream.DiscardNew, Storage: c.storageType(), Replicas: c.replicas, MaxBytes: c.streamMaxBytes, Duplicates: c.deDuplicationWindow})
+			if err != nil {
+				return fmt.Errorf("could not create the stream. If you want to delete and re-define the stream use `nats stream delete %s`: %w", c.streamOrBucketName, err)
+			}
+			// TODO: a way to wait for the stream to be ready (e.g. when updating the stream's config (e.g. from R1 to R3))
+		} else {
+			s, err = js.Stream(ctx, c.streamOrBucketName)
+			if err != nil {
+				return fmt.Errorf("stream '%s' does not exist, create it with --create", c.streamOrBucketName)
+			}
+			log.Printf("Using stream: %s", c.streamOrBucketName)
 		}
-		// TODO: a way to wait for the stream to be ready (e.g. when updating the stream's config (e.g. from R1 to R3))
-	} else {
-		s, err = js.Stream(ctx, c.streamOrBucketName)
-		if err != nil {
-			return fmt.Errorf("stream '%s' does not exist, create it with --create", c.streamOrBucketName)
-		}
-		log.Printf("Using stream: %s", c.streamOrBucketName)
 	}
 
-	if c.purge {
+	if c.purge && !c.skipStream {
 		log.Printf("Purging the stream")
 		err = s.Purge(ctx)
 		if err != nil {
@@ -882,12 +886,12 @@ func (c *benchCmd) jspubAction(_ *fisk.ParseContext) error {
 	}
 
 	bm.Close()
-	
+
 	err = c.printResults(bm)
 	if err != nil {
 		return err
 	}
-	
+
 	// Calculate and display total throughput for JS publish
 	elapsed := benchEnd.Sub(benchStart).Seconds()
 	if elapsed > 0 {
