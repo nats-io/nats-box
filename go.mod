@@ -20,7 +20,7 @@ require (
 	github.com/klauspost/compress v1.18.0
 	github.com/nats-io/jsm.go v0.2.5-0.20250730125343-6393d114e681
 	github.com/nats-io/jwt/v2 v2.7.4
-	github.com/nats-io/nats-server/v2 v2.11.6
+	github.com/nats-io/nats-server/v2 v2.11.7
 	github.com/nats-io/nats.go v1.44.0
 	github.com/nats-io/nkeys v0.4.11
 	github.com/nats-io/nuid v1.0.1
@@ -69,7 +69,7 @@ require (
 	golang.org/x/sys v0.34.0 // indirect
 	golang.org/x/text v0.27.0 // indirect
 	golang.org/x/time v0.12.0 // indirect
-	google.golang.org/protobuf v1.36.6 // indirect
+	google.golang.org/protobuf v1.36.7 // indirect
 )
 
 // replace github.com/nats-io/nats.go => ./src/nats.go
@@ -78,4 +78,4 @@ require (
 
 replace github.com/nats-io/nats.go => github.com/wallyqs/nats.go v0.0.0-20250805235422-a72990c54b37
 
-replace github.com/nats-io/jsm.go => github.com/wallyqs/jsm.go v0.0.0-20250805231950-6df5e3f7b0a4
+replace github.com/nats-io/jsm.go => github.com/wallyqs/jsm.go v0.0.0-20250808113132-4a44563b8611
