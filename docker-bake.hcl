@@ -71,8 +71,9 @@ target "nats-box-nonroot" {
     nats-box = "target:nats-box"
   }
   inherits = ["nats-box"]
+  # Use the numeric user ID for non-root nats user
   args = {
-    USER = "nats"
+    USER = "1000"
   }
   dockerfile-inline = <<EOT
 FROM nats-box
