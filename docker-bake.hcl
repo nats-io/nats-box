@@ -72,7 +72,7 @@ target "nats-box-nonroot" {
   }
   inherits = ["nats-box"]
   args = {
-    USER = "nats"
+    USER = "1000"
   }
   dockerfile-inline = <<EOT
 FROM nats-box
