@@ -57,9 +57,9 @@ group "default" {
 target "nats-box" {
   dockerfile = "Dockerfile"
   args = {
-    VERSION_NATS        = "0.2.3"
+    VERSION_NATS        = "0.2.4"
     VERSION_NATS_TOP    = "0.6.3"
-    VERSION_NSC         = "2.11.0"
+    VERSION_NSC         = "2.11.1"
   }
   platforms  = get_platforms_multiarch()
   tags       = get_tags("nats-box")
@@ -72,7 +72,7 @@ target "nats-box-nonroot" {
   }
   inherits = ["nats-box"]
   args = {
-    USER = "nats"
+    USER = "1000"
   }
   dockerfile-inline = <<EOT
 FROM nats-box
