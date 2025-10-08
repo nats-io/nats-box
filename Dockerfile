@@ -7,7 +7,6 @@ LABEL maintainer="Waldemar Quevedo <wally@nats.io>"
 ARG TARGETARCH
 
 ARG VERSION_NATS
-ARG VERSION_NATS_TOP
 ARG VERSION_NSC
 ARG VERSION_NKEYS
 
@@ -18,7 +17,6 @@ RUN <<EOT
     mkdir -p ${GOPATH}
 
     go install -ldflags="-X main.version=${VERSION_NSC}" github.com/nats-io/nsc/v2@v${VERSION_NSC}
-    go install -ldflags="-X main.version=${VERSION_NATS_TOP}" github.com/nats-io/nats-top@v${VERSION_NATS_TOP}
     go install -ldflags="-X main.version=${VERSION_NATS}" github.com/nats-io/natscli/nats@v${VERSION_NATS}
     go install -ldflags="-X main.version=${VERSION_NKEYS}" github.com/nats-io/nkeys/nk@v${VERSION_NKEYS}
 EOT

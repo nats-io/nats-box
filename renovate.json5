@@ -17,16 +17,6 @@
       customType: 'regex',
       fileMatch: ['^docker-bake\\.hcl$'],
       matchStrings: [
-        'VERSION_NATS_TOP\\s*=\\s*"(?<currentValue>[^"]+)"'
-      ],
-      datasourceTemplate: 'github-releases',
-      depNameTemplate: 'nats-io/nats-top',
-      extractVersionTemplate: '^v(?<version>.+)$'
-    },
-    {
-      customType: 'regex',
-      fileMatch: ['^docker-bake\\.hcl$'],
-      matchStrings: [
         'VERSION_NSC\\s*=\\s*"(?<currentValue>[^"]+)"'
       ],
       datasourceTemplate: 'github-releases',
