@@ -32,6 +32,16 @@
       datasourceTemplate: 'github-releases',
       depNameTemplate: 'nats-io/nsc',
       extractVersionTemplate: '^v(?<version>.+)$'
+    },
+    {
+      customType: 'regex',
+      fileMatch: ['^docker-bake\\.hcl$'],
+      matchStrings: [
+        'VERSION_NKEYS\\s*=\\s*"(?<currentValue>[^"]+)"'
+      ],
+      datasourceTemplate: 'github-releases',
+      depNameTemplate: 'nats-io/nkeys',
+      extractVersionTemplate: '^v(?<version>.+)$'
     }
   ],
   packageRules: [
