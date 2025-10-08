@@ -16,6 +16,7 @@ A lightweight container with NATS utilities.
 - nats - NATS management utility ([README](https://github.com/nats-io/natscli#readme))
 - nsc - create NATS accounts and users ([README](https://github.com/nats-io/nsc#readme))
 - nats-top - top-like tool for monitoring NATS servers ([README](https://github.com/nats-io/nats-top#readme))
+- nk - NATS nkeys tool ([README](https://github.com/nats-io/nkeys#readme))
 
 ## Getting started
 
