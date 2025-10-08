@@ -60,3 +60,13 @@ nsc/
 
 5 directories, 1 file
 ```
+
+## Releasing
+
+1. Create annotated tag, e.g.:
+
+```
+git tag -s -a "v0.19.0" -m "v0.19.0"
+```
+
+2. Github workflow will take care of the rest.

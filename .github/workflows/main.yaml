@@ -43,6 +43,7 @@ jobs:
         REGISTRY: "natsio"
       with:
         push: true
+        source: .
 
     - name: Create Release
       env:
