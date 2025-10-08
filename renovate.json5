@@ -37,8 +37,7 @@
   packageRules: [
     {
       matchManagers: ['custom.regex'],
-      matchFileNames: ['docker-bake.hcl'],
-      groupName: 'NATS tools'
+      matchFileNames: ['docker-bake.hcl']
     }
   ]
 }
