@@ -23,7 +23,7 @@ RUN <<EOT
     go install -ldflags="-X main.version=${VERSION_NKEYS}" github.com/nats-io/nkeys/nk@v${VERSION_NKEYS}
 EOT
 
-FROM alpine:3.22
+FROM alpine:3.23
 
 ARG TARGETARCH
 
