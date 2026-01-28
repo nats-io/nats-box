@@ -36,9 +36,6 @@ kubectl run -i --rm --tty nats-box --image=natsio/nats-box --restart=Never
 nats-box:~# nats sub -s nats hello &
 nats-box:~# nats pub -s nats hello world
 
-# Non-interactive mode
-kubectl apply -f https://nats-io.github.io/k8s/tools/nats-box.yml
-kubectl exec -it nats-box -- /bin/sh
 ```
 
 ## Using NSC to manage NATS v2 users and accounts
