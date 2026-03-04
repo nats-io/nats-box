@@ -1,53 +1,69 @@
 {
   $schema: 'https://docs.renovatebot.com/renovate-schema.json',
-  extends: ['config:recommended'],
-  labels: ['dependencies'],
+  extends: [
+    'config:recommended',
+  ],
+  labels: [
+    'dependencies',
+  ],
   customManagers: [
     {
       customType: 'regex',
-      fileMatch: ['^docker-bake\\.hcl$'],
+      managerFilePatterns: [
+        '/^docker-bake\\.hcl$/',
+      ],
       matchStrings: [
-        'VERSION_NATS\\s*=\\s*"(?<currentValue>[^"]+)"'
+        'VERSION_NATS\\s*=\\s*"(?<currentValue>[^"]+)"',
       ],
       datasourceTemplate: 'github-releases',
       depNameTemplate: 'nats-io/natscli',
-      extractVersionTemplate: '^v(?<version>.+)$'
+      extractVersionTemplate: '^v(?<version>.+)$',
     },
     {
       customType: 'regex',
-      fileMatch: ['^docker-bake\\.hcl$'],
+      managerFilePatterns: [
+        '/^docker-bake\\.hcl$/',
+      ],
       matchStrings: [
-        'VERSION_NATS_TOP\\s*=\\s*"(?<currentValue>[^"]+)"'
+        'VERSION_NATS_TOP\\s*=\\s*"(?<currentValue>[^"]+)"',
       ],
       datasourceTemplate: 'github-releases',
       depNameTemplate: 'nats-io/nats-top',
-      extractVersionTemplate: '^v(?<version>.+)$'
+      extractVersionTemplate: '^v(?<version>.+)$',
     },
     {
       customType: 'regex',
-      fileMatch: ['^docker-bake\\.hcl$'],
+      managerFilePatterns: [
+        '/^docker-bake\\.hcl$/',
+      ],
       matchStrings: [
-        'VERSION_NSC\\s*=\\s*"(?<currentValue>[^"]+)"'
+        'VERSION_NSC\\s*=\\s*"(?<currentValue>[^"]+)"',
       ],
       datasourceTemplate: 'github-releases',
       depNameTemplate: 'nats-io/nsc',
-      extractVersionTemplate: '^v(?<version>.+)$'
+      extractVersionTemplate: '^v(?<version>.+)$',
     },
     {
       customType: 'regex',
-      fileMatch: ['^docker-bake\\.hcl$'],
+      managerFilePatterns: [
+        '/^docker-bake\\.hcl$/',
+      ],
       matchStrings: [
-        'VERSION_NKEYS\\s*=\\s*"(?<currentValue>[^"]+)"'
+        'VERSION_NKEYS\\s*=\\s*"(?<currentValue>[^"]+)"',
       ],
       datasourceTemplate: 'github-releases',
       depNameTemplate: 'nats-io/nkeys',
-      extractVersionTemplate: '^v(?<version>.+)$'
-    }
+      extractVersionTemplate: '^v(?<version>.+)$',
+    },
   ],
   packageRules: [
     {
-      matchManagers: ['custom.regex'],
-      matchFileNames: ['docker-bake.hcl']
-    }
-  ]
+      matchManagers: [
+        'custom.regex',
+      ],
+      matchFileNames: [
+        'docker-bake.hcl',
+      ],
+    },
+  ],
 }
