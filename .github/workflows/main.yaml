@@ -18,7 +18,7 @@ jobs:
         sed -i 's/^.*MARKER-REPLACE-LINE-IN-CI.*/echo "nats-box ${{ github.ref_name }}" >\&2/' profile.sh
 
     - name: Setup QEMU
-      uses: docker/setup-qemu-action@v3
+      uses: docker/setup-qemu-action@v4
 
     - name: Set up Docker Buildx
       id: buildx
