@@ -58,7 +58,7 @@ target "nats-box" {
   dockerfile = "Dockerfile"
   args = {
     VERSION_NATS        = "0.3.2"
-    VERSION_NATS_TOP    = "0.6.3"
+    VERSION_NATS_TOP    = "0.6.4"
     VERSION_NSC         = "2.12.1"
     VERSION_NKEYS       = "0.4.15"
   }
