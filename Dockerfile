@@ -1,4 +1,4 @@
-#syntax=docker/dockerfile-upstream:1.22
+#syntax=docker/dockerfile-upstream:1.23
 FROM golang:1.26-alpine AS builder
 
 LABEL maintainer="Derek Collison <derek@nats.io>"
