@@ -60,7 +60,7 @@ target "nats-box" {
     VERSION_NATS        = "0.4.0"
     VERSION_NATS_TOP    = "0.6.4"
     VERSION_NSC         = "2.14.0"
-    VERSION_NKEYS       = "0.4.15"
+    VERSION_NKEYS       = "0.4.16"
   }
   platforms  = get_platforms_multiarch()
   tags       = get_tags("nats-box")
