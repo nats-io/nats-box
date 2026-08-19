@@ -1,5 +1,5 @@
-#syntax=docker/dockerfile-upstream:1.24
-FROM golang:1.26-alpine AS builder
+# syntax=docker/dockerfile:1
+FROM golang:1.26.6-alpine3.24 AS builder
 
 LABEL maintainer="Derek Collison <derek@nats.io>"
 LABEL maintainer="Waldemar Quevedo <wally@nats.io>"
@@ -23,7 +23,7 @@ RUN <<EOT
     go install -ldflags="-X main.version=${VERSION_NKEYS}" github.com/nats-io/nkeys/nk@v${VERSION_NKEYS}
 EOT
 
-FROM alpine:3.23
+FROM alpine:3.24.1
 
 ARG TARGETARCH
 

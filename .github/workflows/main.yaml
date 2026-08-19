@@ -4,28 +4,37 @@ on:
     tags:
       - v[0-9]+.[0-9]+.[0-9]+
 
+permissions: {}
+
 jobs:
   linux:
+    name: Build and release images
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      TAG_NAME: ${{ github.ref_name }}
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v6
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
 
     - name: Adjust build version
       id: embed_version
       run: |
-        sed -i 's/^.*MARKER-REPLACE-LINE-IN-CI.*/echo "nats-box ${{ github.ref_name }}" >\&2/' profile.sh
+        sed -i "s/^.*MARKER-REPLACE-LINE-IN-CI.*/echo \"nats-box ${TAG_NAME}\" >\\&2/" profile.sh
 
     - name: Setup QEMU
-      uses: docker/setup-qemu-action@v4
+      uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4.2.0
 
     - name: Set up Docker Buildx
       id: buildx
-      uses: docker/setup-buildx-action@v4
+      uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
 
     - name: Setup Docker Hub
-      uses: docker/login-action@v4
+      uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_CLI_TOKEN }}
@@ -33,11 +42,10 @@ jobs:
     - name: Get Image Tags
       id: tags
       run: |
-        version=$(sed 's/^v//' <<< ${{ github.ref_name }})
-        echo tags="latest,${version}" >> $GITHUB_OUTPUT
+        echo "tags=latest,${TAG_NAME#v}" >> "$GITHUB_OUTPUT"
 
     - name: Build and Push
-      uses: docker/bake-action@v7
+      uses: docker/bake-action@d3418bd7d0e9324001bca92fa8ba175ea7e6dc9b # v7.3.0
       env:
         TAGS: "${{ steps.tags.outputs.tags }}"
         REGISTRY: "natsio"
@@ -49,6 +57,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        gh release create ${{ github.ref_name }} \
-          --title "${{ github.ref_name }}" \
+        gh release create "$TAG_NAME" \
+          --title "$TAG_NAME" \
           --generate-notes
